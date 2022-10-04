@@ -4,11 +4,11 @@
 	<ol class="breadcrumb float-xl-right">
 		<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
 		<li class="breadcrumb-item"><a href="javascript:;">Management</a></li>
-		<li class="breadcrumb-item active">Lokasi</li>
+		<li class="breadcrumb-item active">Kabupaten Kota</li>
 	</ol>
 	<!-- end breadcrumb -->
 	<!-- begin page-header -->
-	<h1 class="page-header">Lokasi <small></small></h1>
+	<h1 class="page-header">Kabupaten Kota <small></small></h1>
 	<!-- end page-header -->
 	<!-- begin row -->
 	<div class="row">
@@ -17,7 +17,7 @@
 			<div class="panel panel-inverse">
 				<!-- begin panel-heading -->
 				<div class="panel-heading">
-					<h4 class="panel-title">Tabel Lokasi Kos - Kosan</h4>
+					<h4 class="panel-title">Tabel Kabupaten / Kota</h4>
 					<div class="panel-heading-btn">
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -29,7 +29,7 @@
 				<!-- begin panel-body -->
 				<div class="panel-body" style="border-bottom: 1px solid #ccc;">
 					<div class="col-xl-12">
-						<button onclick="window.open('<?= site_url('management/lokasi/add') ?>', '_self')" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i> Tambah</button>&nbsp;&nbsp;&nbsp;&nbsp;
+						<button onclick="window.open('<?= site_url('management/kota/add') ?>', '_self')" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i> Tambah</button>&nbsp;&nbsp;&nbsp;&nbsp;
 						<button id="editBtn" class="btn btn-xs btn-warning"><i class="fa fa-edit"></i> Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
 						<button id="deleteBtn" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Hapus</button>&nbsp;&nbsp;&nbsp;&nbsp;
 					</div>
@@ -110,15 +110,15 @@
 			$(this).toggleClass('selected');
 			var pos = table.row(this).index();
 			var row = table.row(pos).data();
-			console.log(row.MenuId);
-			dataId = row.MenuId;
+			console.log(row.KotaId);
+			dataId = row.KotaId;
 		});
 
 		$('#editBtn').click(function() {
 			var oData = table.rows('.selected').data();
 
 			if (oData.length > 0) {
-				window.location.href = '<?= site_url('sistem/menu/update/') ?>' + dataId;
+				window.location.href = '<?= site_url('management/kota/update/') ?>' + dataId;
 			} else {
 				$.gritter.add({
 					title: 'Pilih data terlebih dahulu!',
@@ -136,7 +136,7 @@
 
 			if (oData.length > 0) {
 				swal({
-					title: "Hapus menu?",
+					title: "Hapus Kota?",
 					text: "Anda tidak dapat mengembalikan data yang telah dihapus!",
 					icon: "warning",
 					buttons: [
@@ -153,7 +153,7 @@
 						}).then(function() {
 							$.ajax({
 								type: "POST", // Method pengiriman data bisa dengan GET atau POST
-								url: "<?= site_url('sistem/menu_do/delete/') ?>" + dataId,
+								url: "<?= site_url('management/kota_do/delete/') ?>" + dataId,
 								data: {}, // data yang akan dikirim ke file yang dituju
 								dataType: "json",
 								beforeSend: function(e) {

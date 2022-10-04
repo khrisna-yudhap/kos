@@ -38,6 +38,7 @@ class Kota extends ACM_Controller
             'button' => 'add',
             'action' => site_url('management/kota_do/add'),
             'KotaName' => set_value('KotaName'),
+            'KotaActive' => set_value('1')
         );
         
         $view["content"] = $this->load->view('Kota_form', $data, TRUE);

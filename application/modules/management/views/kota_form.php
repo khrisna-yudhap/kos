@@ -4,12 +4,12 @@
 	<ol class="breadcrumb float-xl-right">
 		<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
 		<li class="breadcrumb-item"><a href="javascript:;">Management</a></li>
-		<li class="breadcrumb-item"><a href="javascript:;">Lokasi</a></li>
+		<li class="breadcrumb-item"><a href="javascript:;">Kabupaten Kota</a></li>
 		<li class="breadcrumb-item active">Form</li>
 	</ol>
 	<!-- end breadcrumb -->
 	<!-- begin page-header -->
-	<h1 class="page-header">Lokasi <small></small></h1>
+	<h1 class="page-header">Kabupaten Kota <small></small></h1>
 	<!-- end page-header -->
 	<!-- begin row -->
 	<div class="row">
@@ -19,7 +19,7 @@
 			<div class="panel panel-inverse" data-sortable-id="form-plugins-7">
 				<!-- begin panel-heading -->
 				<div class="panel-heading">
-					<h4 class="panel-title">Form Lokasi</h4>
+					<h4 class="panel-title">Form Tambah Kabupaten Kota</h4>
 					<div class="panel-heading-btn">
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -32,16 +32,10 @@
 				<div id="wizard" class="panel-body panel-form">
 					<form class="form-horizontal form-bordered" name="my-form">
 						<div class="form-group row">
-							<label class="col-lg-4 col-form-label">Nama Kota <?php echo form_error('LokasiName') ?></label>
+							<label class="col-lg-4 col-form-label">Nama Kota <?php echo form_error('KotaName') ?></label>
 							<div class="col-lg-8">
-								<input type="text" class="form-control" name="GroupName" id="GroupName" placeholder="GroupName" value="<?php echo $GroupName; ?>" />
-								<input type="hidden" id="GroupId" name="GroupId" value="<?= $GroupId ?>">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label">GroupDescription <?php echo form_error('GroupDescription') ?></label>
-							<div class="col-lg-8">
-								<input type="text" class="form-control" name="GroupDescription" id="GroupDescription" placeholder="GroupDescription" value="<?php echo $GroupDescription; ?>" />
+								<input class="form-control" id="KotaName" name="KotaName" cols="30" rows="1"></input>
+								
 							</div>
 						</div>
 						<div class="form-group row">
@@ -65,22 +59,6 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 
-		$('#jenis-menu').on('change', function() {
-			var jenis = $('#jenis-menu').val();
-			if (jenis == 1) {
-				$('#div-parent').show();
-				$('#div-module').show();
-				$('#div-aksi').show();
-				$('#MenuModule').removeAttr('data-parsley-required');
-			} else {
-				$('#div-parent').hide();
-				$('#div-module').hide();
-				$('#div-aksi').hide();
-				$('#MenuModule').attr('data-parsley-required', 'true');
-
-			}
-			// console.log(jenis);
-		})
 
 		$('#simpan').click(function() {
 			var url = "<?= $action ?>"
@@ -88,9 +66,7 @@
 				type: "POST",
 				url: url,
 				data: {
-					GroupId: $('#GroupId').val(),
-					GroupDescription: $('#GroupDescription').val(),
-					GroupName: $('#GroupName').val(),
+					KotaName: $('#KotaName').val(),
 				},
 				success: function(data) {
 					if (data != 'success') {
@@ -110,7 +86,7 @@
 							time: '',
 						});
 						setTimeout(function() {
-							window.location.href = '<?= site_url('sistem/group/') ?>';
+							window.location.href = '<?= site_url('management/kota/') ?>';
 						}, 1000);
 
 					}

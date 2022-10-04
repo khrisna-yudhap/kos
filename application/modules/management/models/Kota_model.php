@@ -18,6 +18,17 @@ class Kota_model extends Ci_Model
 		$this->datatables->generate();
     }
 
+    function doAdd($kotaName) {
+        $sql = "INSERT INTO manage_kota (KotaName) VALUES (?)";
+        $this->db->query($sql, array($kotaName));
+        return $this->db->insert_id();
+    }
+
+    function doDelete($kotaId) {
+        $sql = "DELETE FROM manage_kota WHERE KotaId = ?";
+        return $this->db->query($sql, array($kotaId));
+    }
+
 }
 
 /*
