@@ -34,8 +34,8 @@
 						<div class="form-group row">
 							<label class="col-lg-4 col-form-label">Nama Kota <?php echo form_error('KotaName') ?></label>
 							<div class="col-lg-8">
-								<input class="form-control" id="KotaName" name="KotaName" cols="30" rows="1"></input>
-								
+								<input class="form-control" id="KotaName" name="KotaName" cols="30" rows="1" value="<?php echo $KotaName; ?>"></input>
+								<input type="hidden" name="KotaId" id="KotaId" value="<?= $KotaId ?>">
 							</div>
 						</div>
 						<div class="form-group row">
@@ -67,6 +67,7 @@
 				url: url,
 				data: {
 					KotaName: $('#KotaName').val(),
+					KotaId: $('#KotaId').val(),
 				},
 				success: function(data) {
 					if (data != 'success') {

@@ -14,21 +14,36 @@ class Kota_model extends Ci_Model
         // $this->datatables->edit_column('MenuId', '$1', 'encrypt_id(MenuId)');
         // //generate tombol aksi di helper, menu = modulenya, (type 1 untuk akasi full, type 2 edit hapus, type 3 hapus only), id row
         // $this->datatables->add_column('action', '$1', 'getAction(menu,2,MenuId)');
-        return 
-		$this->datatables->generate();
+        return
+            $this->datatables->generate();
     }
 
-    function doAdd($kotaName) {
+    function getDataById($id)
+    {
+        $this->db->select('*');
+        $this->db->from('manage_kota');
+        $this->db->where('KotaId', $id);
+        return $this->db->get()->row();
+    }
+
+    function doAdd($kotaName)
+    {
         $sql = "INSERT INTO manage_kota (KotaName) VALUES (?)";
         $this->db->query($sql, array($kotaName));
         return $this->db->insert_id();
     }
 
-    function doDelete($kotaId) {
+    function doDelete($kotaId)
+    {
         $sql = "DELETE FROM manage_kota WHERE KotaId = ?";
         return $this->db->query($sql, array($kotaId));
     }
 
+    function doUpdate($KotaName, $KotaId)
+    {
+        $sql = "UPDATE manage_kota SET KotaName = ? WHERE KotaId = ?";
+        return $this->db->query($sql, array($KotaName, $KotaId));
+    }
 }
 
 /*
