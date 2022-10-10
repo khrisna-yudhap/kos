@@ -84,7 +84,7 @@
                     width: 100
                 },
                 {
-                    "data": "LokasiKab",
+                    "data": "KotaId",
                     width: 100
                 },
             ],

@@ -38,9 +38,16 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-4 col-form-label">Nama Kabupaten / Kota <?php echo form_error('LokasiKab') ?></label>
+                            <label class="col-lg-4 col-form-label">Kabupaten / Kota <?php echo form_error('KotaId') ?></label>
                             <div class="col-lg-8">
-                                <input type="text" class="form-control" name="LokasiKab" id="LokasiKab" placeholder="LokasiKab" value="<?php echo $LokasiKab; ?>" />
+                                <select class="form-control" id="KotaId" name="KotaId">
+                                    <option value="">-- pilih --</option>
+                                    <? for ($i = 0; $i < sizeof($kota); $i++) {
+                                        $select = ($kota[$i]['value'] == $KotaId ? 'selected' : '') ?>
+                                        <option value="<?= $kota[$i]['value'] ?>" <?= $select ?>>
+                                            <?= $kota[$i]['label'] ?>
+                                        <? } ?>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -89,7 +96,7 @@
                 data: {
                     LokasiId: $('#LokasiId').val(),
                     LokasiName: $('#LokasiName').val(),
-                    LokasiKab: $('#LokasiKab').val(),
+                    KotaId: $('#KotaId').val(),
                 },
                 success: function(data) {
                     if (data != 'success') {

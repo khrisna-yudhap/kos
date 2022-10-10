@@ -8,7 +8,8 @@ class Lokasi_model extends Ci_Model
         $this->load->library('datatables');
         $this->load->helper('my_datatable');
 
-        $this->datatables->select('*,LokasiId,LokasiName,LokasiKab,LokasiActive');
+        $this->datatables->select('*,LokasiId,LokasiName,KotaId
+        ,LokasiActive');
         $this->datatables->from('manage_lokasi');
         // $this->datatables->add_column('tampil', '$1', 'checklist(MenuIsShow)');
         // $this->datatables->edit_column('MenuId', '$1', 'encrypt_id(MenuId)');
@@ -26,17 +27,36 @@ class Lokasi_model extends Ci_Model
         return $this->db->get()->row();
     }
 
-    function doAdd($LokasiName, $description)
+    function getKota()
     {
-        $sql = "INSERT INTO manage_lokasi (LokasiName, LokasiKab) VALUES (?, ?)";
-        $this->db->query($sql, array($LokasiName, $description));
+        $sql = "
+        SELECT  KotaId as value, KotaName as label
+        FROM manage_kota";
+
+        $query = $this->db->query($sql, array());
+        return $query->result_array();
+    }
+
+    function getAll()
+    {
+        $sql = "
+            SELECT *
+            FROM manage_lokasi";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+    function doAdd($LokasiName, $KotaId)
+    {
+        $sql = "INSERT INTO manage_lokasi (LokasiName, KotaId) VALUES (?, ?)";
+        $this->db->query($sql, array($LokasiName, $KotaId));
         return $this->db->insert_id();
     }
 
-    function doUpdate($LokasiName, $description, $LokasiId)
+    function doUpdate($LokasiName, $LokasiId, $KotaId)
     {
-        $sql = "UPDATE manage_lokasi SET LokasiName = ?, LokasiKab = ? WHERE LokasiId = ?";
-        return $this->db->query($sql, array($LokasiName, $description, $LokasiId));
+        $sql = "UPDATE manage_lokasi SET LokasiName = ?, KotaId = ? WHERE LokasiId = ?";
+        return $this->db->query($sql, array($LokasiName, $LokasiId, $KotaId));
     }
 
     function doDelete($LokasiId)

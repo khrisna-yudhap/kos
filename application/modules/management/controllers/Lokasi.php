@@ -26,7 +26,7 @@ class Lokasi extends ACM_Controller
 
             $data['title'] = 'Lokasi';
 
-            $view["content"] = $this->load->view('lokasi_list', $data, TRUE);
+            $view["content"] = $this->load->view('Lokasi_list', $data, TRUE);
             $this->load_view($view);
         }
     }
@@ -39,33 +39,34 @@ class Lokasi extends ACM_Controller
             'action' => site_url('management/Lokasi_do/add'),
             'LokasiId' => set_value('LokasiId'),
             'LokasiName' => set_value('LokasiName'),
-            'LokasiKab' => set_value('LokasiKab'),
-            'LokasiActive' => set_value('1'),
+            'KotaId' => set_value('KotaId'),
         );
 
-        $view["content"] = $this->load->view('lokasi_form', $data, TRUE);
+        $data["kota"] = $this->Lokasi_model->getKota();
+        $view["content"] = $this->load->view('Lokasi_form', $data, TRUE);
         $this->load_view($view);
     }
 
     function update($id)
     {
         $this->load->model('Lokasi_model');
-        $row = $this->Lokasi_model->getDataById(decrypt_url($id));
+        $row = $this->Lokasi_model->getDataById($id);
 
         if ($row) {
             $data = array(
                 'button' => 'update',
-                'action' => site_url('sistem/Lokasi_do/update'),
+                'action' => site_url('management/Lokasi_do/update'),
                 'LokasiId' => set_value('LokasiId', $id),
                 'LokasiName' => set_value('LokasiName', $row->LokasiName),
-                'Lokasikab' => set_value('LokasiKab', $row->LokasiKab),
+                'KotaId' => set_value('KotaId', $row->KotaId),
             );
+            $data["kota"] = $this->Lokasi_model->getKota();
 
             $view["content"] = $this->load->view('lokasi_form', $data, TRUE);
             $this->load_view($view);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('Lokasi'));
+            redirect(site_url('management/lokasi'));
         }
     }
 }

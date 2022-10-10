@@ -17,7 +17,7 @@ class Lokasi_do extends ACM_Controller
             'rules' => 'required'
         ),
         array(
-            'field' => 'LokasiKab',
+            'field' => 'KotaId',
             'label' => 'Lokasi Kabupaten',
             'rules' => 'required'
         ),
@@ -36,14 +36,13 @@ class Lokasi_do extends ACM_Controller
             die;
         } else {
             $this->load->helper('tanggal');
-            $foto = '';
             // if ($_FILES['GroupFoto']['name'] != '') {
             //     $foto = date('Y_m_d_h_m_s') . $_FILES['GroupFoto']['name'];
             //     move_uploaded_file($_FILES['GroupFoto']['tmp_name'], 'images/foto/' . $foto);
             // }
             //  echo $_POST['GroupGroupId'];exit;
 
-            $result = $this->Lokasi_model->DoAdd($_POST['LokasiName'], $_POST['LokasiKab']);
+            $result = $this->Lokasi_model->DoAdd($_POST['LokasiName'], $_POST['KotaId']);
 
             if ($result) {
                 echo 'success';
@@ -57,8 +56,8 @@ class Lokasi_do extends ACM_Controller
 
     function update()
     {
-        $id = decrypt_url($_POST['LokasiId']);
-        $result = $this->Lokasi_model->DoUpdate($_POST['LokasiName'], $_POST['LokasiKab'], $id);
+        $id = isset($_POST['LokasiId']);
+        $result = $this->Lokasi_model->DoUpdate($_POST['LokasiName'], $_POST['KotaId'], $id);
 
         if ($result) {
             echo 'success';
