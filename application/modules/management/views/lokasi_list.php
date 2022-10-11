@@ -84,7 +84,7 @@
                     width: 100
                 },
                 {
-                    "data": "KotaId",
+                    "data": "KotaName",
                     width: 100
                 },
             ],

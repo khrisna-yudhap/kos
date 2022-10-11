@@ -56,7 +56,7 @@ class Lokasi_do extends ACM_Controller
 
     function update()
     {
-        $id = isset($_POST['LokasiId']);
+        $id = $_POST['LokasiId'];
         $result = $this->Lokasi_model->DoUpdate($_POST['LokasiName'], $_POST['KotaId'], $id);
 
         if ($result) {

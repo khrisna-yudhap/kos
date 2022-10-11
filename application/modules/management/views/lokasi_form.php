@@ -34,6 +34,7 @@
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label">Nama Lokasi <?php echo form_error('LokasiName') ?></label>
                             <div class="col-lg-8">
+                                <input type="hidden" name="LokasiId" id="LokasiId" value="<?= $LokasiId ?>">
                                 <input type="text" class="form-control" name="LokasiName" id="LokasiName" placeholder="LokasiName" value="<?php echo $LokasiName; ?>" />
                             </div>
                         </div>
