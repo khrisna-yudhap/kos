@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 04, 2022 at 06:58 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.29
+-- Generation Time: Oct 11, 2022 at 05:25 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 7.4.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -83,6 +83,7 @@ CREATE TABLE `acm_group_menu_aksi` (
 --
 
 INSERT INTO `acm_group_menu_aksi` (`GroupMenuMenuAksiId`, `GroupMenuGroupId`, `GroupMenuSegmen`) VALUES
+(29, 2, 'home/index'),
 (1, 1, '#/index'),
 (2, 1, 'sistem/user/index'),
 (3, 1, 'sistem/user/add'),
@@ -132,7 +133,23 @@ INSERT INTO `acm_group_menu_aksi` (`GroupMenuMenuAksiId`, `GroupMenuGroupId`, `G
 (112, 1, 'master/akses_api/add'),
 (113, 1, 'master/akses_api/update'),
 (114, 1, 'master/akses_api/delete'),
-(29, 2, 'home/index');
+(135, 1, '#/index'),
+(136, 1, 'management/kota/index'),
+(137, 1, 'management/kota/add'),
+(138, 1, 'management/kota/update'),
+(139, 1, 'management/kota/delete'),
+(151, 1, 'management/lokasi/index'),
+(152, 1, 'management/lokasi/add'),
+(153, 1, 'management/lokasi/update'),
+(154, 1, 'management/lokasi/delete'),
+(158, 1, 'management/biaya/index'),
+(159, 1, 'management/biaya/add'),
+(160, 1, 'management/biaya/update'),
+(161, 1, 'management/biaya/delete'),
+(165, 1, 'management/kamar/index'),
+(166, 1, 'management/kamar/add'),
+(167, 1, 'management/kamar/update'),
+(168, 1, 'management/kamar/delete');
 
 -- --------------------------------------------------------
 
@@ -161,10 +178,10 @@ INSERT INTO `acm_menu` (`MenuId`, `MenuParentId`, `MenuName`, `MenuModule`, `Men
 (2, 1, 'User', 'sistem/user', '1', '', 2, 'sistem', NULL),
 (3, 1, 'Group', 'sistem/group', '1', '', 1, 'sistem', NULL),
 (4, 1, 'Menu', 'sistem/menu', '1', '', 3, 'sistem', NULL),
-(5, 1, 'Hak Akses', 'sistem/authentikasi', '1', NULL, 4, 'sistem', NULL),
+(5, 1, 'Hak Akses', 'sistem/authentikasi', '1', NULL, 4, 'Sistem', NULL),
 (6, 1, 'Profile', 'sistem/profile', '0', NULL, 5, 'sistem', NULL),
 (7, 1, 'Password', 'sistem/password', '0', NULL, 6, 'sistem', NULL),
-(10, 0, 'Home', 'home', '1', 'fa fa-th-large', 0, 'home', NULL),
+(10, 0, 'Home', 'home', '1', 'fa fa-th-large', 0, 'Home', NULL),
 (12, 0, 'Master', '#', '1', 'fa fa-cogs', 3, 'master', NULL),
 (13, 12, 'Jenis Ref Billing', 'master/jenis_ref_billing', '1', NULL, 0, 'master', NULL),
 (14, 12, 'Kategori Ref Billing', 'master/kategori_ref_billing', '1', NULL, 0, 'master', NULL),
@@ -172,7 +189,12 @@ INSERT INTO `acm_menu` (`MenuId`, `MenuParentId`, `MenuName`, `MenuModule`, `Men
 (19, 12, 'API', 'master/api', '1', NULL, 0, 'Master', NULL),
 (20, 12, 'Pengakses', 'master/pengakses', '1', NULL, 0, 'Master', NULL),
 (21, 12, 'Parameter API', 'master/parameter_api', '1', NULL, 0, 'Master', NULL),
-(22, 12, 'Akses API', 'master/akses_api', '1', NULL, 0, 'Master', NULL);
+(22, 12, 'Akses API', 'master/akses_api', '1', NULL, 0, 'Master', NULL),
+(25, 0, 'Management', '#', '1', 'fa fa-th-large', 2, 'Pengakses', NULL),
+(26, 25, 'Kabupaten / Kota', 'management/kota', '1', NULL, 2, 'Management', NULL),
+(29, 25, 'Lokasi', 'management/lokasi', '1', NULL, 3, 'Management', NULL),
+(30, 25, 'Biaya Sewa', 'management/biaya', '1', NULL, 1, 'Management', NULL),
+(31, 25, 'Master Kamar', 'management/kamar', '1', NULL, 1, 'Management', NULL);
 
 -- --------------------------------------------------------
 
@@ -307,7 +329,55 @@ INSERT INTO `acm_menu_aksi` (`MenuAksiId`, `MenuAksiMenuId`, `MenuAksiAksiId`) V
 (114, 22, 4),
 (115, 22, 5),
 (116, 22, 6),
-(117, 22, 7);
+(117, 22, 7),
+(118, 23, 1),
+(119, 23, 2),
+(120, 23, 3),
+(121, 23, 4),
+(122, 23, 5),
+(123, 23, 6),
+(124, 23, 7),
+(125, 5, 5),
+(126, 5, 6),
+(127, 5, 7),
+(128, 24, 1),
+(135, 25, 1),
+(136, 26, 1),
+(137, 26, 2),
+(138, 26, 3),
+(139, 26, 4),
+(140, 26, 5),
+(141, 26, 6),
+(142, 26, 7),
+(143, 27, 1),
+(144, 28, 1),
+(145, 28, 2),
+(146, 28, 3),
+(147, 28, 4),
+(148, 28, 5),
+(149, 28, 6),
+(150, 28, 7),
+(151, 29, 1),
+(152, 29, 2),
+(153, 29, 3),
+(154, 29, 4),
+(155, 29, 5),
+(156, 29, 6),
+(157, 29, 7),
+(158, 30, 1),
+(159, 30, 2),
+(160, 30, 3),
+(161, 30, 4),
+(162, 30, 5),
+(163, 30, 6),
+(164, 30, 7),
+(165, 31, 1),
+(166, 31, 2),
+(167, 31, 3),
+(168, 31, 4),
+(169, 31, 5),
+(170, 31, 6),
+(171, 31, 7);
 
 -- --------------------------------------------------------
 
@@ -401,6 +471,91 @@ INSERT INTO `kategori_ref_billing` (`id_kategori_ref_billing`, `kategori_ref_bil
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `manage_biaya`
+--
+
+CREATE TABLE `manage_biaya` (
+  `BiayaId` int(11) NOT NULL,
+  `KamarId` int(5) NOT NULL,
+  `KotaId` int(5) NOT NULL,
+  `LokasiId` int(5) NOT NULL,
+  `BiayaHarian` int(11) NOT NULL,
+  `BiayaMingguan` int(11) NOT NULL,
+  `BiayaBulanan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `manage_biaya`
+--
+
+INSERT INTO `manage_biaya` (`BiayaId`, `KamarId`, `KotaId`, `LokasiId`, `BiayaHarian`, `BiayaMingguan`, `BiayaBulanan`) VALUES
+(1, 1, 1, 1, 5000000, 1000000, 2000000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `manage_kamar`
+--
+
+CREATE TABLE `manage_kamar` (
+  `KamarId` int(11) NOT NULL,
+  `KamarName` varchar(50) NOT NULL,
+  `LokasiId` int(5) NOT NULL,
+  `KotaId` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `manage_kamar`
+--
+
+INSERT INTO `manage_kamar` (`KamarId`, `KamarName`, `LokasiId`, `KotaId`) VALUES
+(1, 'Kamar 1', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `manage_kota`
+--
+
+CREATE TABLE `manage_kota` (
+  `KotaId` int(11) NOT NULL,
+  `KotaName` varchar(50) NOT NULL,
+  `KotaActive` enum('1','0','','') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `manage_kota`
+--
+
+INSERT INTO `manage_kota` (`KotaId`, `KotaName`, `KotaActive`) VALUES
+(1, 'Bandung', '1'),
+(2, 'Jakarta', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `manage_lokasi`
+--
+
+CREATE TABLE `manage_lokasi` (
+  `LokasiId` int(11) NOT NULL,
+  `LokasiName` varchar(255) NOT NULL,
+  `KotaId` int(11) NOT NULL,
+  `LokasiActive` enum('1','0','','') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `manage_lokasi`
+--
+
+INSERT INTO `manage_lokasi` (`LokasiId`, `LokasiName`, `KotaId`, `LokasiActive`) VALUES
+(1, 'Lokasi A', 1, ''),
+(2, 'Lokasi B', 2, ''),
+(6, 'lokasi C', 1, '1');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `master_api`
 --
 
@@ -443,6 +598,19 @@ CREATE TABLE `master_pengakses` (
 
 INSERT INTO `master_pengakses` (`id_pengakses`, `nm_pengakses`, `kode_bank`) VALUES
 (1, 'BPD', '21');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mg_lokasi`
+--
+
+CREATE TABLE `mg_lokasi` (
+  `id_lokasi` int(11) NOT NULL,
+  `nama_lokasi` varchar(50) NOT NULL,
+  `status_lokasi` int(1) NOT NULL,
+  `created_at` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -566,6 +734,31 @@ ALTER TABLE `kategori_ref_billing`
   ADD PRIMARY KEY (`id_kategori_ref_billing`);
 
 --
+-- Indexes for table `manage_biaya`
+--
+ALTER TABLE `manage_biaya`
+  ADD PRIMARY KEY (`BiayaId`);
+
+--
+-- Indexes for table `manage_kamar`
+--
+ALTER TABLE `manage_kamar`
+  ADD PRIMARY KEY (`KamarId`);
+
+--
+-- Indexes for table `manage_kota`
+--
+ALTER TABLE `manage_kota`
+  ADD PRIMARY KEY (`KotaId`);
+
+--
+-- Indexes for table `manage_lokasi`
+--
+ALTER TABLE `manage_lokasi`
+  ADD PRIMARY KEY (`LokasiId`),
+  ADD KEY `KotaId` (`KotaId`);
+
+--
 -- Indexes for table `master_api`
 --
 ALTER TABLE `master_api`
@@ -576,6 +769,12 @@ ALTER TABLE `master_api`
 --
 ALTER TABLE `master_pengakses`
   ADD PRIMARY KEY (`id_pengakses`);
+
+--
+-- Indexes for table `mg_lokasi`
+--
+ALTER TABLE `mg_lokasi`
+  ADD PRIMARY KEY (`id_lokasi`);
 
 --
 -- Indexes for table `parameter_api`
@@ -615,13 +814,13 @@ ALTER TABLE `acm_group`
 -- AUTO_INCREMENT for table `acm_menu`
 --
 ALTER TABLE `acm_menu`
-  MODIFY `MenuId` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `MenuId` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `acm_menu_aksi`
 --
 ALTER TABLE `acm_menu_aksi`
-  MODIFY `MenuAksiId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+  MODIFY `MenuAksiId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 
 --
 -- AUTO_INCREMENT for table `acm_user`
@@ -636,6 +835,30 @@ ALTER TABLE `jenis_ref_billing`
   MODIFY `id_jenis_ref_billing` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `manage_biaya`
+--
+ALTER TABLE `manage_biaya`
+  MODIFY `BiayaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `manage_kamar`
+--
+ALTER TABLE `manage_kamar`
+  MODIFY `KamarId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `manage_kota`
+--
+ALTER TABLE `manage_kota`
+  MODIFY `KotaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `manage_lokasi`
+--
+ALTER TABLE `manage_lokasi`
+  MODIFY `LokasiId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `master_api`
 --
 ALTER TABLE `master_api`
@@ -646,6 +869,12 @@ ALTER TABLE `master_api`
 --
 ALTER TABLE `master_pengakses`
   MODIFY `id_pengakses` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `mg_lokasi`
+--
+ALTER TABLE `mg_lokasi`
+  MODIFY `id_lokasi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `parameter_api`
