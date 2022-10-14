@@ -29,7 +29,7 @@
                 <!-- begin panel-body -->
                 <div class="panel-body" style="border-bottom: 1px solid #ccc;">
                     <div class="col-xl-12">
-                        <button onclick="window.open('<?= site_url('management/kota/add') ?>', '_self')" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i> Tambah</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button onclick="window.open('<?= site_url('management/kamar/add') ?>', '_self')" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i> Tambah</button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <button id="editBtn" class="btn btn-xs btn-warning"><i class="fa fa-edit"></i> Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <button id="deleteBtn" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Hapus</button>&nbsp;&nbsp;&nbsp;&nbsp;
                     </div>
@@ -124,6 +124,76 @@
             dataId = row.KamarId;
         });
 
+        $('#editBtn').click(function() {
+            var oData = table.rows('.selected').data();
+
+            if (oData.length > 0) {
+                window.location.href = '<?= site_url('management/kamar/update/') ?>' + dataId;
+            } else {
+                $.gritter.add({
+                    title: 'Pilih data terlebih dahulu!',
+                    // text: data,
+                    // sticky: true,
+                    time: '3000',
+                }, 1000);
+                return false;
+            }
+
+        });
+
+        $('#deleteBtn').click(function() {
+            var oData = table.rows('.selected').data();
+
+            if (oData.length > 0) {
+                swal({
+                    title: "Hapus menu?",
+                    text: "Anda tidak dapat mengembalikan data yang telah dihapus!",
+                    icon: "warning",
+                    buttons: [
+                        'Batal',
+                        'Ya'
+                    ],
+                    dangerMode: true,
+                }).then(function(isConfirm) {
+                    if (isConfirm) {
+                        swal({
+                            title: 'Dihapus!',
+                            text: 'Data berhasil dihapus!',
+                            icon: 'success'
+                        }).then(function() {
+                            $.ajax({
+                                type: "POST", // Method pengiriman data bisa dengan GET atau POST
+                                url: "<?= site_url('management/kamar_do/delete/') ?>" + dataId,
+                                data: {}, // data yang akan dikirim ke file yang dituju
+                                dataType: "json",
+                                beforeSend: function(e) {
+                                    if (e && e.overrideMimeType) {
+                                        e.overrideMimeType("application/json;charset=UTF-8");
+                                    }
+                                },
+                                success: function(response) {
+                                    table.ajax.reload();
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) { // Ketika ada error
+                                    swal(xhr.status + "\n" + xhr.responseText + "\n" + thrownError); // Munculkan alert error
+                                }
+                            });
+                        });
+                    } else {
+                        swal("Dibatalkan", "", "error");
+                    }
+                })
+            } else {
+                $.gritter.add({
+                    title: 'Pilih data terlebih dahulu!',
+                    // text: data,
+                    // sticky: true,
+                    time: '3000',
+                }, 1000);
+                return false;
+            }
+
+        });
 
     });
 </script>
