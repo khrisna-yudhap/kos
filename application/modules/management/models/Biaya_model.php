@@ -8,7 +8,9 @@ class Biaya_model extends Ci_Model
         $this->load->library('datatables');
         $this->load->helper('my_datatable');
 
-        $this->datatables->select('*,BiayaId, KamarId, KotaId, LokasiId, BiayaHarian, BiayaMingguan, BiayaBulanan');
+        $this->datatables->select('*');
+        $this->datatables->join('manage_kota', 'manage_kota.KotaId = manage_biaya.KotaId', 'LEFT');
+        $this->datatables->join('manage_lokasi', 'manage_lokasi.LokasiId = manage_biaya.LokasiId', 'LEFT');
         $this->datatables->from('manage_biaya');
         // $this->datatables->add_column('tampil', '$1', 'checklist(MenuIsShow)');
         // $this->datatables->edit_column('MenuId', '$1', 'encrypt_id(MenuId)');

@@ -9,7 +9,9 @@ class Kamar_model extends Ci_Model
         $this->load->helper('my_datatable');
 
 
-        $this->datatables->select('*')->join('manage_kota', 'manage_kota.KotaId = manage_kamar.KotaId', 'LEFT');
+        $this->datatables->select('*');
+        $this->datatables->join('manage_kota', 'manage_kota.KotaId = manage_kamar.KotaId', 'LEFT');
+        $this->datatables->join('manage_lokasi', 'manage_lokasi.LokasiId = manage_kamar.LokasiId', 'LEFT');
         $this->datatables->from('manage_kamar');
         // $this->datatables->add_column('tampil', '$1', 'checklist(MenuIsShow)');
         // $this->datatables->edit_column('MenuId', '$1', 'encrypt_id(MenuId)');
@@ -24,6 +26,14 @@ class Kamar_model extends Ci_Model
         $this->db->select('*');
         $this->db->from('manage_kamar');
         $this->db->where('KamarId', $id);
+        return $this->db->get()->row();
+    }
+
+    function getLokasiById($id)
+    {
+        $this->db->select('*');
+        $this->db->from('manage_lokasi');
+        $this->db->where('LokasiId', $id);
         return $this->db->get()->row();
     }
 
@@ -46,6 +56,19 @@ class Kamar_model extends Ci_Model
         $query = $this->db->query($sql, array());
         return $query->result_array();
     }
+
+    //Get Data Lokasi
+    function getLokasiKota($postData){
+        $response = array();
+     
+        // Select record
+        $this->db->select('*');
+        $this->db->where('KotaId', $postData);
+        $q = $this->db->get('manage_lokasi');
+        $response = $q->result_array();
+    
+        return $response;
+      }
 
     function getAll()
     {

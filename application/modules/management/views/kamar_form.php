@@ -32,26 +32,6 @@
                 <div id="wizard" class="panel-body panel-form">
                     <form class="form-horizontal form-bordered" name="my-form">
                         <div class="form-group row">
-                            <label class="col-lg-4 col-form-label">Nama Kamar <?php echo form_error('KamarName') ?></label>
-                            <div class="col-lg-8">
-                                <input type="hidden" name="KamarId" id="KamarId" value="<?= $KamarId ?>">
-                                <input type="text" class="form-control" name="KamarName" id="KamarName" placeholder="KamarName" value="<?php echo $KamarName; ?>" />
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-4 col-form-label">Lokasi <?php echo form_error('LokasiId') ?></label>
-                            <div class="col-lg-8">
-                                <select class="form-control" id="LokasiId" name="LokasiId">
-                                    <option value="">-- pilih --</option>
-                                    <? for ($i = 0; $i < sizeof($lokasi); $i++) {
-                                        $select = ($lokasi[$i]['value'] == $LokasiId ? 'selected' : '') ?>
-                                        <option value="<?= $lokasi[$i]['value'] ?>" <?= $select ?>>
-                                            <?= $lokasi[$i]['label'] ?>
-                                        <? } ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label class="col-lg-4 col-form-label">Kabupaten / Kota <?php echo form_error('KotaId') ?></label>
                             <div class="col-lg-8">
                                 <select class="form-control" id="KotaId" name="KotaId">
@@ -62,6 +42,26 @@
                                             <?= $kota[$i]['label'] ?>
                                         <? } ?>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label">Lokasi <?php echo form_error('LokasiId') ?></label>
+                            <div class="col-lg-8">
+                                <select class="form-control" id="LokasiId" name="LokasiId">
+                                    <?php
+                                        if ($lokasi_terpilih) { ?>
+                                          <option value="<?= $lokasi_terpilih->LokasiId ?>"><?= $lokasi_terpilih->LokasiName ?></option>
+                                        <? }else{ ?>
+                                            <option value="">-- Pilih --</option>
+                                        <? } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label">Nama Kamar <?php echo form_error('KamarName') ?></label>
+                            <div class="col-lg-8">
+                                <input type="hidden" name="KamarId" id="KamarId" value="<?= $KamarId ?>">
+                                <input type="text" class="form-control" name="KamarName" id="KamarName" placeholder="Masukkan Nama Kamar" value="<?php echo $KamarName; ?>" />
                             </div>
                         </div>
                         <div class="form-group row">
@@ -84,23 +84,39 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+        // City change
+        $('#KotaId').change(function(){
+            var KotaId = $(this).val();
 
-        $('#jenis-menu').on('change', function() {
-            var jenis = $('#jenis-menu').val();
-            if (jenis == 1) {
-                $('#div-parent').show();
-                $('#div-module').show();
-                $('#div-aksi').show();
-                $('#MenuModule').removeAttr('data-parsley-required');
-            } else {
-                $('#div-parent').hide();
-                $('#div-module').hide();
-                $('#div-aksi').hide();
-                $('#MenuModule').attr('data-parsley-required', 'true');
+            // AJAX request
+            $.ajax({
+                url:'<?= site_url('management/kamar/index/find') ?>',
+                method: 'POST',
+                data: {
+                    KotaId: KotaId
+                },
+                async:false,
+                dataType: 'json',
+                success: function(data){
+                    $('#LokasiId').empty();
 
-            }
-            // console.log(jenis);
-        })
+                    html = '<option value="">-- pilih --</option>';
+                    $('#LokasiId').html(html);
+
+                    if (data) {
+                        var html = '';
+                        var i;
+                        html += '<option value="">-- pilih --</option>';
+                        
+                        for (i = 0; i < data.length; i++) {
+                            html += '<option value="'+data[i]['LokasiId']+'">'+data[i]['LokasiName']+'</option>';
+                            $('#LokasiId').html(html);
+                            // $('#LokasiId').append('<option value="'+response[i]['LokasiId']+'">'+response[]['LokasiName']+'</option>');
+                        }
+                }
+                }
+            });
+        });  
 
         $('#simpan').click(function() {
             var url = "<?= $action ?>"

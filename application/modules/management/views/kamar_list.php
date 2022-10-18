@@ -84,11 +84,11 @@
                     width: 100
                 },
                 {
-                    "data": "LokasiId",
+                    "data": "LokasiName",
                     width: 100
                 },
                 {
-                    "data": "KotaId",
+                    "data": "KotaName",
                     width: 100
                 },
 
