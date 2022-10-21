@@ -35,7 +35,7 @@
                             <label class="col-lg-4 col-form-label">Kabupaten / Kota <?php echo form_error('KotaId') ?></label>
                             <div class="col-lg-8">
                                 <select class="form-control" id="KotaId" name="KotaId">
-                                    <option value="">-- pilih --</option>
+                                    <option value="">-- Pilih --</option>
                                     <? for ($i = 0; $i < sizeof($kota); $i++) {
                                         $select = ($kota[$i]['value'] == $KotaId ? 'selected' : '') ?>
                                         <option value="<?= $kota[$i]['value'] ?>" <?= $select ?>>
@@ -49,11 +49,11 @@
                             <div class="col-lg-8">
                                 <select class="form-control" id="LokasiId" name="LokasiId">
                                     <?php
-                                        if ($lokasi_terpilih) { ?>
-                                          <option value="<?= $lokasi_terpilih->LokasiId ?>"><?= $lokasi_terpilih->LokasiName ?></option>
-                                        <? }else{ ?>
-                                            <option value="">-- Pilih --</option>
-                                        <? } ?>
+                                    if ($lokasi_terpilih) { ?>
+                                        <option value="<?= $lokasi_terpilih->LokasiId ?>"><?= $lokasi_terpilih->LokasiName ?></option>
+                                    <? } else { ?>
+                                        <option value="">-- Pilih --</option>
+                                    <? } ?>
                                 </select>
                             </div>
                         </div>
@@ -85,38 +85,38 @@
 <script type="text/javascript">
     $(document).ready(function() {
         // City change
-        $('#KotaId').change(function(){
+        $('#KotaId').change(function() {
             var KotaId = $(this).val();
 
             // AJAX request
             $.ajax({
-                url:'<?= site_url('management/kamar/index/find') ?>',
+                url: '<?= site_url('management/kamar/index/find') ?>',
                 method: 'POST',
                 data: {
                     KotaId: KotaId
                 },
-                async:false,
+                async: false,
                 dataType: 'json',
-                success: function(data){
+                success: function(data) {
                     $('#LokasiId').empty();
 
-                    html = '<option value="">-- pilih --</option>';
+                    html = '<option value="">-- Pilih --</option>';
                     $('#LokasiId').html(html);
 
                     if (data) {
                         var html = '';
                         var i;
-                        html += '<option value="">-- pilih --</option>';
-                        
+                        html += '<option value="">-- Pilih --</option>';
+
                         for (i = 0; i < data.length; i++) {
-                            html += '<option value="'+data[i]['LokasiId']+'">'+data[i]['LokasiName']+'</option>';
+                            html += '<option value="' + data[i]['LokasiId'] + '">' + data[i]['LokasiName'] + '</option>';
                             $('#LokasiId').html(html);
                             // $('#LokasiId').append('<option value="'+response[i]['LokasiId']+'">'+response[]['LokasiName']+'</option>');
                         }
-                }
+                    }
                 }
             });
-        });  
+        });
 
         $('#simpan').click(function() {
             var url = "<?= $action ?>"

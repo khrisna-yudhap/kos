@@ -9,7 +9,7 @@ class Kamar_model extends Ci_Model
         $this->load->helper('my_datatable');
 
 
-        $this->datatables->select('*');
+        $this->datatables->select('*, KamarId, KamarName, LokasiName, KotaName');
         $this->datatables->join('manage_kota', 'manage_kota.KotaId = manage_kamar.KotaId', 'LEFT');
         $this->datatables->join('manage_lokasi', 'manage_lokasi.LokasiId = manage_kamar.LokasiId', 'LEFT');
         $this->datatables->from('manage_kamar');
@@ -58,17 +58,18 @@ class Kamar_model extends Ci_Model
     }
 
     //Get Data Lokasi
-    function getLokasiKota($postData){
+    function getLokasiKota($postData)
+    {
         $response = array();
-     
+
         // Select record
         $this->db->select('*');
         $this->db->where('KotaId', $postData);
         $q = $this->db->get('manage_lokasi');
         $response = $q->result_array();
-    
+
         return $response;
-      }
+    }
 
     function getAll()
     {

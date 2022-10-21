@@ -4,12 +4,12 @@
     <ol class="breadcrumb float-xl-right">
         <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
         <li class="breadcrumb-item"><a href="javascript:;">Management</a></li>
-        <li class="breadcrumb-item"><a href="javascript:;">Biaya per Kamar</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Penyewa Kos</a></li>
         <li class="breadcrumb-item active">Form</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Biaya<small></small></h1>
+    <h1 class="page-header">Penyewa Kos<small></small></h1>
     <!-- end page-header -->
     <!-- begin row -->
     <div class="row">
@@ -19,7 +19,7 @@
             <div class="panel panel-inverse" data-sortable-id="form-plugins-7">
                 <!-- begin panel-heading -->
                 <div class="panel-heading">
-                    <h4 class="panel-title">Form Biaya</h4>
+                    <h4 class="panel-title">Form Tambah Penyewa Kos</h4>
                     <div class="panel-heading-btn">
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -31,7 +31,24 @@
                 <!-- begin panel-body -->
                 <div id="wizard" class="panel-body panel-form">
                     <form class="form-horizontal form-bordered" name="my-form">
-                        <input type="hidden" name="BiayaId" id="BiayaId" value="<?= $BiayaId ?>">
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label">Nama Penyewa <?php echo form_error('NamaPenyewa') ?></label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" name="NamaPenyewa" id="NamaPenyewa" placeholder="Nama Penyewa...">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label">Identitas Penyewa <?php echo form_error('NomorIdentitas') ?></label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" name="NomorIdentitas" id="NomorIdentitas" placeholder="Ex: 2102408210001 /KTP">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label">Nomor HP <?php echo form_error('NomorHp') ?></label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" name="NomorHp" id="NomorHp" placeholder="Ex: 081211173882">
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label">Kabupaten / Kota <?php echo form_error('KotaId') ?></label>
                             <div class="col-lg-8">
@@ -59,30 +76,66 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-4 col-form-label">Biaya Kamar Per Hari<?php echo form_error('BiayaId') ?></label>
+                            <label class="col-lg-4 col-form-label">Kamar <?php echo form_error('KamarId') ?></label>
                             <div class="col-lg-8">
-
-                                <input type="text" class="form-control" name="BiayaHarian" id="BiayaHarian" placeholder="Biaya Per Hari" value="<?php echo $BiayaHarian; ?>" />
+                                <select class="form-control" id="KamarId" name="KamarId">
+                                    <?php
+                                    if ($lokasi_terpilih) { ?>
+                                        <option value="<?= $lokasi_terpilih->LokasiId ?>"><?= $lokasi_terpilih->LokasiName ?></option>
+                                    <? } else { ?>
+                                        <option value="">-- Pilih --</option>
+                                    <? } ?>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-4 col-form-label">Biaya Kamar Per Minggu<?php echo form_error('BiayaId') ?></label>
+                            <label class="col-lg-4 col-form-label">Jenis Sewa <?php echo form_error('JenisSewa') ?></label>
                             <div class="col-lg-8">
-                                <input type="hidden" name="BiayaId" id="BiayaId" value="<?= $BiayaId ?>">
-                                <input type="text" class="form-control" name="BiayaMingguan" id="BiayaMingguan" placeholder="Biaya Per Minggu" value="<?php echo $BiayaMingguan; ?>" />
+                                <select class="form-control" id="JenisSewa" name="JenisSewa">
+                                    <?php
+                                    if ($lokasi_terpilih) { ?>
+                                        <option value="<?= $lokasi_terpilih->LokasiId ?>"><?= $lokasi_terpilih->LokasiName ?></option>
+                                    <? } else { ?>
+                                        <option value="">-- Pilih --</option>
+                                    <? } ?>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-4 col-form-label">Biaya Kamar Per Bulan<?php echo form_error('BiayaId') ?></label>
+                            <label class="col-lg-4 col-form-label">Status Sewa <?php echo form_error('StatusSewa') ?></label>
                             <div class="col-lg-8">
-                                <input type="hidden" name="BiayaId" id="BiayaId" value="<?= $BiayaId ?>">
-                                <input type="text" class="form-control" name="BiayaBulanan" id="BiayaBulanan" placeholder="Biaya Per Bulan" value="<?php echo $BiayaBulanan; ?>" />
+                                <select class="form-control" id="StatusSewa" name="StatusSewa">
+                                    <?php
+                                    if ($lokasi_terpilih) { ?>
+                                        <option value="<?= $lokasi_terpilih->LokasiId ?>"><?= $lokasi_terpilih->LokasiName ?></option>
+                                    <? } else { ?>
+                                        <option value="">-- Pilih --</option>
+                                    <? } ?>
+                                </select>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-md-8">
-                                    <button type="button" id="simpan" class="btn btn-sm btn-primary m-r-5">Simpan</button>
-                                    <button type="button" onclick="history.back(-1)" class="btn btn-sm btn-default">Batal</button>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label">Tanggal Sewa <?php echo form_error('TanggalSewa') ?></label>
+                            <div class="col-lg-8">
+                                <div class="input-group">
+                                    <input class="form-control" type="date" name="TanggalAwal" id="TanggalAwal">
+                                    <span class="input-group-btn" style="padding: 5px;"><b>s.d</b></span>
+                                    <input class="form-control" type="date" name="TanggalAkhir" id="TanggalAkhir">
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label">Keterangan <?php echo form_error('Keterangan') ?></label>
+                            <div class="col-lg-8">
+                                <textarea class="form-control" type="text" name="Keterangan" id="Keterangan" placeholder="Isi Keterangan..."></textarea>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div class="col-md-8">
+                                <button type="button" id="simpan" class="btn btn-sm btn-primary m-r-5">Simpan</button>
+                                <button type="button" onclick="history.back(-1)" class="btn btn-sm btn-default">Batal</button>
                             </div>
                         </div>
                     </form>
@@ -100,39 +153,6 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        // City change
-        $('#KotaId').change(function() {
-            var KotaId = $(this).val();
-
-            // AJAX request
-            $.ajax({
-                url: '<?= site_url('management/biaya/index/find') ?>',
-                method: 'POST',
-                data: {
-                    KotaId: KotaId
-                },
-                async: false,
-                dataType: 'json',
-                success: function(data) {
-                    $('#LokasiId').empty();
-
-                    html = '<option value="">-- Pilih --</option>';
-                    $('#LokasiId').html(html);
-
-                    if (data) {
-                        var html = '';
-                        var i;
-                        html += '<option value="">-- Pilih --</option>';
-
-                        for (i = 0; i < data.length; i++) {
-                            html += '<option value="' + data[i]['LokasiId'] + '">' + data[i]['LokasiName'] + '</option>';
-                            $('#LokasiId').html(html);
-                            // $('#LokasiId').append('<option value="'+response[i]['LokasiId']+'">'+response[]['LokasiName']+'</option>');
-                        }
-                    }
-                }
-            });
-        });
 
         $('#simpan').click(function() {
             var url = "<?= $action ?>"
@@ -140,12 +160,8 @@
                 type: "POST",
                 url: url,
                 data: {
-                    BiayaId: $('#BiayaId').val(),
+                    KotaName: $('#KotaName').val(),
                     KotaId: $('#KotaId').val(),
-                    LokasiId: $('#LokasiId').val(),
-                    BiayaHarian: $('#BiayaHarian').val(),
-                    BiayaMingguan: $('#BiayaMingguan').val(),
-                    BiayaBulanan: $('#BiayaBulanan').val(),
                 },
                 success: function(data) {
                     if (data != 'success') {
@@ -165,7 +181,7 @@
                             time: '',
                         });
                         setTimeout(function() {
-                            window.location.href = '<?= site_url('management/biaya/') ?>';
+                            window.location.href = '<?= site_url('management/kota/') ?>';
                         }, 1000);
 
                     }

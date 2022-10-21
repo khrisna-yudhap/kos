@@ -4,11 +4,11 @@
     <ol class="breadcrumb float-xl-right">
         <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
         <li class="breadcrumb-item"><a href="javascript:;">Management</a></li>
-        <li class="breadcrumb-item active">Biaya Sewa</li>
+        <li class="breadcrumb-item active">Penyewa Kos</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Biaya Sewa Kamar<small></small></h1>
+    <h1 class="page-header">Penyewa Kos<small></small></h1>
     <!-- end page-header -->
     <!-- begin row -->
     <div class="row">
@@ -17,7 +17,7 @@
             <div class="panel panel-inverse">
                 <!-- begin panel-heading -->
                 <div class="panel-heading">
-                    <h4 class="panel-title">Tabel Biaya Sewa Kamar Per Lokasi</h4>
+                    <h4 class="panel-title">Tabel Penyewa Kos</h4>
                     <div class="panel-heading-btn">
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -29,7 +29,7 @@
                 <!-- begin panel-body -->
                 <div class="panel-body" style="border-bottom: 1px solid #ccc;">
                     <div class="col-xl-12">
-                        <button onclick="window.open('<?= site_url('management/biaya/add') ?>', '_self')" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i> Tambah</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button onclick="window.open('<?= site_url('management/persewaan/add') ?>', '_self')" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i> Tambah</button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <button id="editBtn" class="btn btn-xs btn-warning"><i class="fa fa-edit"></i> Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <button id="deleteBtn" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Hapus</button>&nbsp;&nbsp;&nbsp;&nbsp;
                     </div>
@@ -38,15 +38,16 @@
                     <table id="my-table" class="table table-striped table-bordered table-td-valign-middle">
                         <thead>
                             <tr>
-                                <th width="1%" rowspan="2"></th>
-                                <th rowspan="2">Kab / Kota</th>
-                                <th rowspan="2">Lokasi</th>
-                                <th colspan="3" class="text-center">Biaya Sewa (Rp)</th>
-                            </tr>
-                            <tr>
-                                <th>Harian</th>
-                                <th>Mingguan</th>
-                                <th>Bulanan</th>
+                                <th width="1%"></th>
+                                <th width="1%">Status Sewa</th>
+                                <th width="1%">Jenis Sewa</th>
+                                <th width="1%">Tgl Setor</th>
+                                <th>Tgl Sewa</th>
+                                <th width="1%">Kamar</th>
+                                <th width="10%">Lokasi</th>
+                                <th width="15%">Nama Penyewa</th>
+                                <th width="1%">Nominal (Rp)</th>
+                                <th width="1%">Keterangan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -76,34 +77,58 @@
             "order": [], //Initial no order.
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": '<?= site_url('management/biaya/index/json'); ?>',
+                "url": '<?= site_url('management/persewaan/index/json'); ?>',
                 "type": "POST"
             },
             //Set column definition initialisation properties.
             "columns": [{
-                    "data": "BiayaId",
+                    "data": "SewaId",
                     "orderable": false,
                 },
                 {
-                    "data": "KotaName",
+                    "data": "Keterangan",
+                },
+                {
+                    "data": "JenisSewa",
+                },
+                {
+                    "data": "TanggalEntry",
+                    width: 50
+                },
+                {
+                    data: "null",
+                    render: function(data, type, row) {
+                        return row.TanggalAwal + " <b>s.d</b> " +
+                            row.TanggalAkhir;
+                    },
+                    "searchable": false,
+                    "orderable": false,
                     width: 100
+
+                },
+                {
+                    "data": "KamarName",
                 },
                 {
                     "data": "LokasiName",
-                    width: 100
+                    render: function(data, type, row) {
+                        return row.LokasiName + " /" +
+                            row.KotaName;
+                    },
+                    width: 50
                 },
                 {
-                    "data": "BiayaHarian",
-                    width: 100
+                    "data": "NamaPenyewa",
+                    width: 50
                 },
                 {
-                    "data": "BiayaMingguan",
-                    width: 100
+                    "data": "BiayaSewa",
+                    render: $.fn.dataTable.render.number('.', ',', 0),
+                    "searchable": false,
                 },
                 {
-                    "data": "BiayaBulanan",
-                    width: 100
-                }
+                    "data": "Keterangan",
+                },
             ],
             "scrollX": true,
             order: [
@@ -132,14 +157,15 @@
             $(this).toggleClass('selected');
             var pos = table.row(this).index();
             var row = table.row(pos).data();
-            console.log(row.BiayaId);
-            dataId = row.BiayaId;
+            console.log(row.SewaId);
+            dataId = row.SewaId;
         });
+
         $('#editBtn').click(function() {
             var oData = table.rows('.selected').data();
 
             if (oData.length > 0) {
-                window.location.href = '<?= site_url('management/biaya/update/') ?>' + dataId;
+                window.location.href = '<?= site_url('management/persewaan/update/') ?>' + dataId;
             } else {
                 $.gritter.add({
                     title: 'Pilih data terlebih dahulu!',
@@ -157,7 +183,7 @@
 
             if (oData.length > 0) {
                 swal({
-                    title: "Hapus menu?",
+                    title: "Hapus Kota?",
                     text: "Anda tidak dapat mengembalikan data yang telah dihapus!",
                     icon: "warning",
                     buttons: [
@@ -174,7 +200,7 @@
                         }).then(function() {
                             $.ajax({
                                 type: "POST", // Method pengiriman data bisa dengan GET atau POST
-                                url: "<?= site_url('management/biaya_do/delete/') ?>" + dataId,
+                                url: "<?= site_url('management/persewaan_do/delete/') ?>" + dataId,
                                 data: {}, // data yang akan dikirim ke file yang dituju
                                 dataType: "json",
                                 beforeSend: function(e) {

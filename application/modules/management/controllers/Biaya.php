@@ -19,6 +19,15 @@ class Biaya extends ACM_Controller
             echo $this->Biaya_model->json();
             die;
         }
+        if ($mode == 'find') {
+            // print_r($this->input->post());die;
+            $postData = $this->input->post('KotaId');
+
+            // get data 
+            $data = $this->Biaya_model->getLokasiKota($postData);
+            echo json_encode($data);
+            die;
+        }
         if ($mode == 'encrypt') {
             $id = encrypt_url($this->input->post('id'));
             echo $id;
@@ -38,14 +47,13 @@ class Biaya extends ACM_Controller
             'button' => 'add',
             'action' => site_url('management/Biaya_do/add'),
             'BiayaId' => set_value('BiayaId'),
-            'KamarId' => set_value('KamarId'),
             'KotaId' => set_value('KotaId'),
             'LokasiId' => set_value('LokasiId'),
             'BiayaHarian' => set_value('BiayaHarian'),
             'BiayaMingguan' => set_value('BiayaMingguan'),
             'BiayaBulanan' => set_value('BiayaBulanan'),
         );
-        $data["kamar"] = $this->Biaya_model->getKamar();
+
         $data["lokasi"] = $this->Biaya_model->getLokasi();
         $data["kota"] = $this->Biaya_model->getKota();
         $view["content"] = $this->load->view('Biaya_form', $data, TRUE);
@@ -54,7 +62,6 @@ class Biaya extends ACM_Controller
 
     function update($id)
     {
-        $this->load->model('Biaya_model');
         $row = $this->Biaya_model->getDataById($id);
 
         if ($row) {
@@ -62,14 +69,14 @@ class Biaya extends ACM_Controller
                 'button' => 'update',
                 'action' => site_url('management/Biaya_do/update'),
                 'BiayaId' => set_value('BiayaId', $id),
-                'KamarId' => set_value('KamarId', $row->KamarId),
                 'KotaId' => set_value('KotaId', $row->KotaId),
                 'LokasiId' => set_value('LokasiId', $row->LokasiId),
                 'BiayaHarian' => set_value('BiayaHarian', $row->BiayaHarian),
                 'BiayaMingguan' => set_value('BiayaMingguan', $row->BiayaMingguan),
                 'BiayaBulanan' => set_value('BiayaBulanan', $row->BiayaBulanan),
             );
-            $data["kamar"] = $this->Biaya_model->getKamar();
+
+            $data["lokasi_terpilih"] = $this->Biaya_model->getLokasiById($row->LokasiId);
             $data["kota"] = $this->Biaya_model->getKota();
             $data["lokasi"] = $this->Biaya_model->getLokasi();
             $view["content"] = $this->load->view('Biaya_form', $data, TRUE);

@@ -9,7 +9,7 @@ class Lokasi_model extends Ci_Model
         $this->load->helper('my_datatable');
 
 
-        $this->datatables->select('*')->join('manage_kota', 'manage_kota.KotaId = manage_lokasi.KotaId', 'LEFT');
+        $this->datatables->select('*, LokasiId, LokasiName, KotaName')->join('manage_kota', 'manage_kota.KotaId = manage_lokasi.KotaId', 'LEFT');
         $this->datatables->from('manage_lokasi');
         // $this->datatables->add_column('tampil', '$1', 'checklist(MenuIsShow)');
         // $this->datatables->edit_column('MenuId', '$1', 'encrypt_id(MenuId)');

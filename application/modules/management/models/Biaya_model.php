@@ -8,7 +8,7 @@ class Biaya_model extends Ci_Model
         $this->load->library('datatables');
         $this->load->helper('my_datatable');
 
-        $this->datatables->select('*');
+        $this->datatables->select('*, BiayaId, LokasiName, KotaName, BiayaHarian, BiayaMingguan, BiayaBulanan');
         $this->datatables->join('manage_kota', 'manage_kota.KotaId = manage_biaya.KotaId', 'LEFT');
         $this->datatables->join('manage_lokasi', 'manage_lokasi.LokasiId = manage_biaya.LokasiId', 'LEFT');
         $this->datatables->from('manage_biaya');
@@ -48,6 +48,27 @@ class Biaya_model extends Ci_Model
         return $query->result_array();
     }
 
+    //Get Data Lokasi
+    function getLokasiKota($postData)
+    {
+        $response = array();
+
+        // Select record
+        $this->db->select('*');
+        $this->db->where('KotaId', $postData);
+        $q = $this->db->get('manage_lokasi');
+        $response = $q->result_array();
+
+        return $response;
+    }
+    function getLokasiById($id)
+    {
+        $this->db->select('*');
+        $this->db->from('manage_lokasi');
+        $this->db->where('LokasiId', $id);
+        return $this->db->get()->row();
+    }
+
     function getKamar()
     {
         $sql = "
@@ -67,17 +88,17 @@ class Biaya_model extends Ci_Model
         return $query->result_array();
     }
 
-    function doAdd($KamarId, $KotaId, $LokasiId, $BiayaHarian, $BiayaMingguan, $BiayaBulanan)
+    function doAdd($KotaId, $LokasiId, $BiayaHarian, $BiayaMingguan, $BiayaBulanan)
     {
-        $sql = "INSERT INTO manage_biaya (KamarId, KotaId, LokasiId, BiayaHarian, BiayaMingguan, BiayaBulanan) VALUES (?, ?, ?, ?, ?, ?)";
-        $this->db->query($sql, array($KamarId, $KotaId, $LokasiId, $BiayaHarian, $BiayaMingguan, $BiayaBulanan));
+        $sql = "INSERT INTO manage_biaya ( KotaId, LokasiId, BiayaHarian, BiayaMingguan, BiayaBulanan) VALUES (?, ?, ?, ?, ?)";
+        $this->db->query($sql, array($KotaId, $LokasiId, $BiayaHarian, $BiayaMingguan, $BiayaBulanan));
         return $this->db->insert_id();
     }
 
-    function doUpdate($BiayaId, $KamarId, $KotaId, $LokasiId, $BiayaHarian, $BiayaMingguan, $BiayaBulanan)
+    function doUpdate($KotaId, $LokasiId, $BiayaHarian, $BiayaMingguan, $BiayaBulanan, $BiayaId)
     {
-        $sql = "UPDATE manage_biaya SET KamarId = ?, KotaId = ?, LokasiId = ?, BiayaHarian = ?, BiayaMingguan = ?, BiayaBulanan = ?, WHERE BiayaId = ?";
-        return $this->db->query($sql, array($BiayaId, $KamarId, $KotaId, $LokasiId, $BiayaHarian, $BiayaMingguan, $BiayaBulanan));
+        $sql = "UPDATE manage_biaya SET KotaId = ?, LokasiId = ?, BiayaHarian = ?, BiayaMingguan = ?, BiayaBulanan = ? WHERE BiayaId = ?";
+        return $this->db->query($sql, array($KotaId, $LokasiId, $BiayaHarian, $BiayaMingguan, $BiayaBulanan, $BiayaId));
     }
 
     function doDelete($BiayaId)

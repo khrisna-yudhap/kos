@@ -12,11 +12,6 @@ class Biaya_do extends ACM_Controller
 
     var $rules = array(
         array(
-            'field' => 'KamarId',
-            'label' => 'Nama kamar',
-            'rules' => 'required'
-        ),
-        array(
             'field' => 'LokasiId',
             'label' => 'Lokasi',
             'rules' => 'required'
@@ -62,7 +57,7 @@ class Biaya_do extends ACM_Controller
             // }
             //  echo $_POST['GroupGroupId'];exit;
 
-            $result = $this->Biaya_model->DoAdd($_POST['KamarId'], $_POST['LokasiId'], $_POST['KotaId'], $_POST['BiayaHarian'], $_POST['BiayaMingguan'], $_POST['BiayaBulanan']);
+            $result = $this->Biaya_model->DoAdd($_POST['LokasiId'], $_POST['KotaId'], $_POST['BiayaHarian'], $_POST['BiayaMingguan'], $_POST['BiayaBulanan']);
 
             if ($result) {
                 echo 'success';
@@ -77,7 +72,7 @@ class Biaya_do extends ACM_Controller
     function update()
     {
         $id = $_POST['BiayaId'];
-        $result = $this->Biaya_model->DoUpdate($_POST['KamarId'], $_POST['LokasiId'], $_POST['KotaId'], $_POST['BiayaHarian'], $_POST['BiayaMingguan'], $_POST['BiayaBulanan'], $id);
+        $result = $this->Biaya_model->DoUpdate($_POST['KotaId'], $_POST['LokasiId'], $_POST['BiayaHarian'], $_POST['BiayaMingguan'], $_POST['BiayaBulanan'], $id);
 
         if ($result) {
             echo 'success';
