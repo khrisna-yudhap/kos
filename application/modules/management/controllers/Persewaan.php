@@ -19,6 +19,21 @@ class Persewaan extends ACM_Controller
             echo $this->Persewaan_model->json();
             die;
         }
+        if ($mode == 'findLokasi') {
+            // print_r($this->input->post());die;
+            $postData = $this->input->post('KotaId');
+
+            // get data 
+            $data = $this->Persewaan_model->getLokasiKota($postData);
+            echo json_encode($data);
+            die;
+        }
+        if ($mode == 'findKamar') {
+            $postData = $this->input->post('LokasiId');
+            $data = $this->Persewaan_model->getKamarLokasi($postData);
+            echo json_encode($data);
+            die;
+        }
         if ($mode == 'encrypt') {
             $id = encrypt_url($this->input->post('id'));
             echo $id;
@@ -49,11 +64,14 @@ class Persewaan extends ACM_Controller
             'BiayaSewa' => set_value('BiayaSewa'),
             'TanggalAwal' => set_value('TanggalAwal'),
             'TanggalAkhir' => set_value('TanggalAkhir'),
-            'TanggalEntry' => set_value('TanggalEntry'),
             'Keterangan' => set_value('Keterangan')
 
         );
 
+        $data['PengelolaId'] = 1;
+        $data['BiayaSewa'] = 500000;
+        $data["lokasi"] = $this->Persewaan_model->getLokasi();
+        $data["kota"] = $this->Persewaan_model->getKota();
         $view["content"] = $this->load->view('persewaan_form', $data, TRUE);
         $this->load_view($view);
     }

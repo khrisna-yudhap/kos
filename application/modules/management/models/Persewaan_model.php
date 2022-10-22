@@ -29,10 +29,60 @@ class Persewaan_model extends Ci_Model
         return $this->db->get()->row();
     }
 
-    function doAdd($kotaName)
+    function getLokasi()
     {
-        $sql = "INSERT INTO manage_kota (KotaName) VALUES (?)";
-        $this->db->query($sql, array($kotaName));
+        $sql = "
+        SELECT  LokasiId as value, LokasiName as label
+        FROM manage_lokasi";
+
+        $query = $this->db->query($sql, array());
+        return $query->result_array();
+    }
+
+    function getKota()
+    {
+        $sql = "
+        SELECT  KotaId as value, KotaName as label
+        FROM manage_kota";
+
+        $query = $this->db->query($sql, array());
+        return $query->result_array();
+    }
+
+    //Get Data Lokasi
+    function getLokasiKota($postData)
+    {
+        $response = array();
+
+        // Select record
+        $this->db->select('*');
+        $this->db->where('KotaId', $postData);
+        $q = $this->db->get('manage_lokasi');
+        $response = $q->result_array();
+
+        return $response;
+    }
+
+    //Get Data Kamar
+    function getKamarLokasi($postData)
+    {
+        $response = array();
+
+        // Select record
+        $this->db->select('*');
+        $this->db->where('LokasiId', $postData);
+        $q = $this->db->get('manage_kamar');
+        $response = $q->result_array();
+
+        return $response;
+    }
+
+
+
+    function doAdd($PengelolaId, $KotaId, $LokasiId, $KamarId, $NamaPenyewa, $NomorHp, $NomorIdentitas, $JenisSewa, $BiayaSewa, $TanggalAwal, $TanggalAkhir, $Keterangan)
+    {
+        $sql = "INSERT INTO manage_persewaan (PengelolaId, KotaId, LokasiId, KamarId, NamaPenyewa, NomorHp, NomorIdentitas, JenisSewa, BiayaSewa, TanggalAwal, TanggalAkhir,  Keterangan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $this->db->query($sql, array($PengelolaId, $KotaId, $LokasiId, $KamarId, $NamaPenyewa, $NomorHp, $NomorIdentitas, $JenisSewa, $BiayaSewa, $TanggalAwal, $TanggalAkhir, $Keterangan));
         return $this->db->insert_id();
     }
 

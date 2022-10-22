@@ -31,6 +31,8 @@
                 <!-- begin panel-body -->
                 <div id="wizard" class="panel-body panel-form">
                     <form class="form-horizontal form-bordered" name="my-form">
+                        <input type="hidden" class="" name="PengelolaId" id="PengelolaId" value="<?= $PengelolaId; ?>">
+                        <input type="hidden" name="BiayaSewa" id="BiayaSewa" value="<?= $BiayaSewa; ?>">
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label">Nama Penyewa <?php echo form_error('NamaPenyewa') ?></label>
                             <div class="col-lg-8">
@@ -66,12 +68,7 @@
                             <label class="col-lg-4 col-form-label">Lokasi <?php echo form_error('LokasiId') ?></label>
                             <div class="col-lg-8">
                                 <select class="form-control" id="LokasiId" name="LokasiId">
-                                    <?php
-                                    if ($lokasi_terpilih) { ?>
-                                        <option value="<?= $lokasi_terpilih->LokasiId ?>"><?= $lokasi_terpilih->LokasiName ?></option>
-                                    <? } else { ?>
-                                        <option value="">-- Pilih --</option>
-                                    <? } ?>
+                                    <option value="">-- Pilih --</option>
                                 </select>
                             </div>
                         </div>
@@ -79,12 +76,7 @@
                             <label class="col-lg-4 col-form-label">Kamar <?php echo form_error('KamarId') ?></label>
                             <div class="col-lg-8">
                                 <select class="form-control" id="KamarId" name="KamarId">
-                                    <?php
-                                    if ($lokasi_terpilih) { ?>
-                                        <option value="<?= $lokasi_terpilih->LokasiId ?>"><?= $lokasi_terpilih->LokasiName ?></option>
-                                    <? } else { ?>
-                                        <option value="">-- Pilih --</option>
-                                    <? } ?>
+                                    <option value="">-- Pilih --</option>
                                 </select>
                             </div>
                         </div>
@@ -97,6 +89,9 @@
                                         <option value="<?= $lokasi_terpilih->LokasiId ?>"><?= $lokasi_terpilih->LokasiName ?></option>
                                     <? } else { ?>
                                         <option value="">-- Pilih --</option>
+                                        <option value="Harian">Harian</option>
+                                        <option value="Mingguan">Mingguan</option>
+                                        <option value="Bulanan">Bulanan</option>
                                     <? } ?>
                                 </select>
                             </div>
@@ -105,12 +100,9 @@
                             <label class="col-lg-4 col-form-label">Status Sewa <?php echo form_error('StatusSewa') ?></label>
                             <div class="col-lg-8">
                                 <select class="form-control" id="StatusSewa" name="StatusSewa">
-                                    <?php
-                                    if ($lokasi_terpilih) { ?>
-                                        <option value="<?= $lokasi_terpilih->LokasiId ?>"><?= $lokasi_terpilih->LokasiName ?></option>
-                                    <? } else { ?>
-                                        <option value="">-- Pilih --</option>
-                                    <? } ?>
+                                    <option value="">-- Pilih --</option>
+                                    <option value="Sewa">Sewa</option>
+                                    <option value="Booking">Booking</option>
                                 </select>
                             </div>
                         </div>
@@ -153,6 +145,74 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
+        // City change
+        $('#KotaId').change(function() {
+            var KotaId = $(this).val();
+
+            // AJAX request
+            $.ajax({
+                url: '<?= site_url('management/persewaan/index/findLokasi') ?>',
+                method: 'POST',
+                data: {
+                    KotaId: KotaId
+                },
+                async: false,
+                dataType: 'json',
+                success: function(data) {
+                    $('#LokasiId').empty();
+
+                    html = '<option value="">-- Pilih --</option>';
+                    $('#LokasiId').html(html);
+                    // $('#KamarId').html('<option value="">-- Pilih --</option>');
+
+                    if (data) {
+                        var html = '';
+                        var i;
+                        html += '<option value="">-- Pilih --</option>';
+
+                        for (i = 0; i < data.length; i++) {
+                            html += '<option value="' + data[i]['LokasiId'] + '">' + data[i]['LokasiName'] + '</option>';
+                            $('#LokasiId').html(html);
+                            // $('#LokasiId').append('<option value="'+response[i]['LokasiId']+'">'+response[]['LokasiName']+'</option>');
+                        }
+                    }
+                }
+            });
+        });
+
+        $('#LokasiId').change(function() {
+            var LokasiId = $(this).val();
+
+            // AJAX request
+            $.ajax({
+                url: '<?= site_url('management/persewaan/index/findKamar') ?>',
+                method: 'POST',
+                data: {
+                    LokasiId: LokasiId
+                },
+                async: false,
+                dataType: 'json',
+                success: function(data) {
+                    $('#KamarId').empty();
+
+                    html = '<option value="">-- Pilih --</option>';
+                    $('#KamarId').html(html);
+
+                    if (data) {
+                        var html = '';
+                        var i;
+                        html += '<option value="">-- Pilih --</option>';
+
+                        for (i = 0; i < data.length; i++) {
+                            html += '<option value="' + data[i]['KamarId'] + '">' + data[i]['KamarName'] + '</option>';
+                            $('#KamarId').html(html);
+                            // $('#LokasiId').append('<option value="'+response[i]['LokasiId']+'">'+response[]['LokasiName']+'</option>');
+                        }
+                    }
+                }
+            });
+        });
+
 
         $('#simpan').click(function() {
             var url = "<?= $action ?>"
@@ -160,8 +220,20 @@
                 type: "POST",
                 url: url,
                 data: {
-                    KotaName: $('#KotaName').val(),
+                    PengelolaId: $('#PengelolaId').val(),
+                    SewaId: $('#SewaId').val(),
+                    NamaPenyewa: $('#NamaPenyewa').val(),
+                    NomorIdentitas: $('#NomorIdentitas').val(),
+                    NomorHp: $('#NomorHp').val(),
                     KotaId: $('#KotaId').val(),
+                    BiayaSewa: $('#BiayaSewa').val(),
+                    LokasiId: $('#LokasiId').val(),
+                    KamarId: $('#KamarId').val(),
+                    JenisSewa: $('#JenisSewa').val(),
+                    StatusSewa: $('#StatusSewa').val(),
+                    TanggalAwal: $('#TanggalAwal').val(),
+                    TanggalAkhir: $('#TanggalAkhir').val(),
+                    Keterangan: $('#Keterangan').val(),
                 },
                 success: function(data) {
                     if (data != 'success') {
@@ -181,13 +253,13 @@
                             time: '',
                         });
                         setTimeout(function() {
-                            window.location.href = '<?= site_url('management/kota/') ?>';
+                            window.location.href = '<?= site_url('management/persewaan/') ?>';
                         }, 1000);
 
                     }
                 }
             });
-        })
+        });
 
     });
 </script>
