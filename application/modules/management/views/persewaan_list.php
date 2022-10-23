@@ -183,7 +183,7 @@
 
             if (oData.length > 0) {
                 swal({
-                    title: "Hapus Kota?",
+                    title: "Hapus Data Sewa?",
                     text: "Anda tidak dapat mengembalikan data yang telah dihapus!",
                     icon: "warning",
                     buttons: [

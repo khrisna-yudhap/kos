@@ -79,17 +79,17 @@ class Persewaan_model extends Ci_Model
 
 
 
-    function doAdd($PengelolaId, $KotaId, $LokasiId, $KamarId, $NamaPenyewa, $NomorHp, $NomorIdentitas, $JenisSewa, $BiayaSewa, $TanggalAwal, $TanggalAkhir, $Keterangan)
+    function doAdd($PengelolaId, $KotaId, $LokasiId, $KamarId, $NamaPenyewa, $NomorHp, $NomorIdentitas, $JenisSewa, $BiayaSewa, $TanggalAwal, $TanggalAkhir, $TanggalEntry, $Keterangan)
     {
-        $sql = "INSERT INTO manage_persewaan (PengelolaId, KotaId, LokasiId, KamarId, NamaPenyewa, NomorHp, NomorIdentitas, JenisSewa, BiayaSewa, TanggalAwal, TanggalAkhir,  Keterangan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $this->db->query($sql, array($PengelolaId, $KotaId, $LokasiId, $KamarId, $NamaPenyewa, $NomorHp, $NomorIdentitas, $JenisSewa, $BiayaSewa, $TanggalAwal, $TanggalAkhir, $Keterangan));
+        $sql = "INSERT INTO manage_persewaan (PengelolaId, KotaId, LokasiId, KamarId, NamaPenyewa, NomorHp, NomorIdentitas, JenisSewa, BiayaSewa, TanggalAwal, TanggalAkhir, TanggalEntry,  Keterangan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $this->db->query($sql, array($PengelolaId, $KotaId, $LokasiId, $KamarId, $NamaPenyewa, $NomorHp, $NomorIdentitas, $JenisSewa, $BiayaSewa, $TanggalAwal, $TanggalAkhir, $TanggalEntry, $Keterangan));
         return $this->db->insert_id();
     }
 
-    function doDelete($kotaId)
+    function doDelete($sewaId)
     {
-        $sql = "DELETE FROM manage_kota WHERE KotaId = ?";
-        return $this->db->query($sql, array($kotaId));
+        $sql = "DELETE FROM manage_persewaan WHERE SewaId = ?";
+        return $this->db->query($sql, array($sewaId));
     }
 
     function doUpdate($KotaName, $KotaId)

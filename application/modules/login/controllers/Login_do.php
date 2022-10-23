@@ -43,7 +43,6 @@ class Login_do extends CI_Controller
         $this->form_validation->set_rules('username', 'Nama Pengguna', 'trim|required|callback_validate');
 
         if ($this->form_validation->run() == FALSE) {
-			echo 'test';die;
             //            $data['err'] = TRUE;            
             //            $this->load->view('non_login/login', $data);
             $this->load->library('session');
@@ -52,9 +51,8 @@ class Login_do extends CI_Controller
                 'message_type' => "error", "message" => "<b>Login gagal.</b>" .  validation_errors()
             );
             $this->session->set_flashdata($data);
-            redirect('sistem/login');
+            redirect('login');
         } else {
-			
             redirect('home');
         }
     }
@@ -81,7 +79,7 @@ class Login_do extends CI_Controller
         $this->load->model('sistem/Authentikasi_model');
 
         $data = $this->Authentikasi_model->GetUserByUserPassword($_POST['username'], md5($_POST['password']));
-		
+
         if (sizeof($data) > 0) {
             $_SESSION['userid'] = $data['UserId'];
             $_SESSION['groupid'] = $data['UserGroupId'];

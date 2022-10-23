@@ -52,8 +52,9 @@ class Persewaan extends ACM_Controller
         $data = array(
             'button' => 'add',
             'action' => site_url('management/Persewaan_do/add'),
+            'checkHarga' => site_url('management/Persewaan_do/checkHarga'),
             'SewaId' => set_value('SewaId'),
-            'PengelolaId' => set_value(1),
+            'PengelolaId' => set_value('PengelolaId'),
             'KotaId' => set_value('KotaId'),
             'LokasiId' => set_value('LokasiId'),
             'KamarId' => set_value('KamarId'),
@@ -68,7 +69,6 @@ class Persewaan extends ACM_Controller
 
         );
 
-        $data['PengelolaId'] = 1;
         $data['BiayaSewa'] = 500000;
         $data["lokasi"] = $this->Persewaan_model->getLokasi();
         $data["kota"] = $this->Persewaan_model->getKota();
@@ -95,7 +95,7 @@ class Persewaan extends ACM_Controller
             $this->load_view($view);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('management/persewaan'));
+            redirect(site_url('management/Persewaan'));
         }
     }
 }
