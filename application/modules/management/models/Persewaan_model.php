@@ -77,6 +77,99 @@ class Persewaan_model extends Ci_Model
         return $response;
     }
 
+    function checkHarga($tglAwal, $tglAkhir)
+    {
+        $response = [];
+
+        if ($tglAwal == null && $tglAkhir == null) {
+            $response = false;
+
+            return $response;
+        }
+
+        //Cari Jenis Sewa
+        $JenisSewa = "";
+        $BiayaSewa = "";
+
+        $TotalDays = (new DateTime($tglAwal))->diff(new DateTime($tglAkhir))->days;
+
+        function cekTgl($tglAwal, $tglAkhir)
+        {
+            $TglAwal = $tglAwal;
+            $TglAkhir = $tglAkhir;
+
+            //Temukan Tanggal Hari Pada Tgl Awal
+            $dayAwal = date("d", strtotime($TglAwal));
+
+            //Hitung Jumlah hari pada input tgl akhir
+            $dayAkhir = date("d", strtotime($TglAkhir));
+            $month = date("m", strtotime($TglAkhir));
+            $years = date("y", strtotime($TglAkhir));
+
+            if ($dayAwal == $dayAkhir) {
+                return true;
+            }
+        }
+
+        //Check Jenis Sewa dan Biaya Sewa
+        if (!cekTgl($tglAwal, $tglAkhir)) {
+            if ($TotalDays % 7 != 0) {
+                $JenisSewa = "Harian";
+
+                //Get Harga
+                $HargaHarian = 185000;
+
+                $BiayaSewa = $TotalDays * $HargaHarian;
+
+                //Return Response
+                $response = [
+                    'JenisSewa' => $JenisSewa,
+                    'BiayaSewa' => $BiayaSewa,
+                    'Banyaknya Hari' => $TotalDays
+                ];
+
+                return $response;
+                die;
+            } else {
+                $JenisSewa = "Mingguan";
+
+                //Get Harga
+                $HargaMingguan = 1400000;
+
+                $TotalWeeks = $TotalDays / 7;
+                $BiayaSewa = $TotalWeeks * $HargaMingguan;
+
+                //Return Response
+                $response = [
+                    'JenisSewa' => $JenisSewa,
+                    'BiayaSewa' => $BiayaSewa,
+                    'Banyaknya Hari' => $TotalDays
+                ];
+
+                return $response;
+                die;
+            }
+        } else {
+            $JenisSewa = "Bulanan";
+
+            //Get Harga $this->Persewaan_model->getHarga()
+            $HargaBulanan = 4000000;
+
+            $TotalMonth = $TotalDays / 30;
+
+            $BiayaSewa = round($TotalMonth) * $HargaBulanan;
+
+            //Return Response
+            $response = [
+                'JenisSewa' => $JenisSewa,
+                'BiayaSewa' => $BiayaSewa,
+                'Banyaknya Hari' => $TotalDays
+            ];
+
+            return $response;
+            die;
+        }
+    }
 
 
     function doAdd($PengelolaId, $KotaId, $LokasiId, $KamarId, $NamaPenyewa, $NomorHp, $NomorIdentitas, $JenisSewa, $BiayaSewa, $TanggalAwal, $TanggalAkhir, $TanggalEntry, $Keterangan)

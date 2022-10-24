@@ -34,6 +34,14 @@ class Persewaan extends ACM_Controller
             echo json_encode($data);
             die;
         }
+        if ($mode == 'checkHarga') {
+            $tglAwal = $this->input->post('TanggalAwal');
+            $tglAkhir = $this->input->post('TanggalAkhir');
+
+            $data = $this->Persewaan_model->checkHarga($tglAwal, $tglAkhir);
+            echo json_encode($data);
+            die;
+        }
         if ($mode == 'encrypt') {
             $id = encrypt_url($this->input->post('id'));
             echo $id;

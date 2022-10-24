@@ -222,30 +222,28 @@
 
             $.ajax({
                 type: "POST",
-                url: '<?= site_url('management/Persewaan_do/checkHarga') ?>',
+                url: '<?= site_url('management/persewaan/index/checkHarga') ?>',
+                async: true,
                 data: {
                     TanggalAwal: $('#TanggalAwal').val(),
                     TanggalAkhir: $('#TanggalAkhir').val(),
                 },
                 success: function(data) {
-                    if (data != 'success') {
+                    if (data == 'false') {
                         // alert(data);
                         $.gritter.add({
-                            title: 'Data gagal disimpan!',
-                            text: data,
+                            title: 'Check Biaya Gagal !',
+                            text: 'Harap masukan tanggal terlebih dahulu.',
                             sticky: true,
                             time: '',
                         }, 1000);
                         return false;
                     } else {
                         $.gritter.add({
-                            title: 'Data berhasil disimpan!',
-                            // text: data,
+                            title: 'Check Biaya Berhasil',
+                            text: 'Harga =' + data['BiayaSewa'],
                             sticky: true,
                             time: '',
-                        });
-                        setTimeout(function() {
-                            window.location.href = '<?= site_url('management/persewaan/') ?>';
                         }, 1000);
                     }
                 }
