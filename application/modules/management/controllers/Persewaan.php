@@ -35,10 +35,11 @@ class Persewaan extends ACM_Controller
             die;
         }
         if ($mode == 'checkHarga') {
+            $LokasiId = $this->input->post('LokasiId');
             $tglAwal = $this->input->post('TanggalAwal');
             $tglAkhir = $this->input->post('TanggalAkhir');
 
-            $data = $this->Persewaan_model->checkHarga($tglAwal, $tglAkhir);
+            $data = $this->Persewaan_model->checkHarga($LokasiId, $tglAwal, $tglAkhir);
             echo json_encode($data);
             die;
         }
@@ -73,11 +74,11 @@ class Persewaan extends ACM_Controller
             'BiayaSewa' => set_value('BiayaSewa'),
             'TanggalAwal' => set_value('TanggalAwal'),
             'TanggalAkhir' => set_value('TanggalAkhir'),
+            'StatusSewa' => set_value('StatusSewa'),
             'Keterangan' => set_value('Keterangan')
 
         );
 
-        $data['BiayaSewa'] = 500000;
         $data["lokasi"] = $this->Persewaan_model->getLokasi();
         $data["kota"] = $this->Persewaan_model->getKota();
         $view["content"] = $this->load->view('persewaan_form', $data, TRUE);

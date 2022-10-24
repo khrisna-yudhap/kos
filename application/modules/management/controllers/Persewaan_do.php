@@ -48,19 +48,6 @@ class Persewaan_do extends ACM_Controller
 
     );
 
-    var $rules2 = array(
-        array(
-            'field' => 'TanggalAwal',
-            'label' => 'Tanggal Awal Sewa',
-            'rules' => 'required'
-        ),
-        array(
-            'field' => 'TanggalAkhir',
-            'label' => 'Tanggal Akhir Sewa',
-            'rules' => 'required'
-        ),
-    );
-
 
     function add()
     {
@@ -79,29 +66,6 @@ class Persewaan_do extends ACM_Controller
 
             //Get User Session ID
             $PengelolaId = $_SESSION['userid'];
-            // if ($TotalDays % 7 != 0) {
-            //     $JenisSewa = "Harian";
-
-            //     //Get Harga
-            //     $HargaHarian = 185000;
-
-            //     $BiayaSewa = $TotalDays * $HargaHarian;
-            //     echo 'Total Hari =' . $TotalDays . '<br>';
-            //     echo 'Biaya Sewa = ' . $BiayaSewa;
-            //     die;
-            // } else {
-            //     $JenisSewa = "Mingguan";
-
-            //     //Get Harga
-            //     $HargaMingguan = 1400000;
-
-            //     $TotalWeeks = $TotalDays / 7;
-            //     $BiayaSewa = $TotalWeeks * $HargaMingguan;
-            //     echo '$JenisSewa = "Mingguan"' . '<br>';
-            //     echo 'Total Minggu = ' . $TotalWeeks;
-            //     echo 'Biaya Sewa = ' . $BiayaSewa;
-            //     die;
-            // }
 
             //Tambah Data
             $result = $this->Persewaan_model->DoAdd(
@@ -117,6 +81,7 @@ class Persewaan_do extends ACM_Controller
                 $_POST['TanggalAwal'],
                 $_POST['TanggalAkhir'],
                 $tglEntry,
+                $_POST['StatusSewa'],
                 $_POST['Keterangan'],
             );
 

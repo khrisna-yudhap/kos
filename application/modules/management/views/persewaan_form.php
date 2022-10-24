@@ -99,15 +99,16 @@
 
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label">Jenis Sewa <?php echo form_error('Keterangan') ?></label>
+                                    <label class="col-lg-4 col-form-label">Jenis Sewa <?php echo form_error('JenisSewa') ?></label>
                                     <div class="col-lg-8">
-                                        <input class="form-control" type="text" name="NomorHp" id="NomorHp" placeholder="" disabled>
+                                        <input class="form-control" type="text" name="JenisSewa" id="JenisSewa" disabled>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-lg col-form-label">Biaya Sewa <?php echo form_error('Keterangan') ?></label>
+                                    <label class="col-lg col-form-label">Biaya Sewa (Rp)<?php echo form_error('BiayaSewa') ?></label>
                                     <div class="col-lg-8">
-                                        <input class="form-control" type="text" name="NomorHp" id="NomorHp" disabled>
+                                        <input class="form-control" type="text" id="Harga" disabled>
+                                        <input class="form-control" type="hidden" name="BiayaSewa" id="BiayaSewa" disabled>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -223,11 +224,13 @@
             $.ajax({
                 type: "POST",
                 url: '<?= site_url('management/persewaan/index/checkHarga') ?>',
-                async: true,
                 data: {
+                    LokasiId: $('#LokasiId').val(),
                     TanggalAwal: $('#TanggalAwal').val(),
                     TanggalAkhir: $('#TanggalAkhir').val(),
                 },
+                async: false,
+                dataType: 'json',
                 success: function(data) {
                     if (data == 'false') {
                         // alert(data);
@@ -241,10 +244,15 @@
                     } else {
                         $.gritter.add({
                             title: 'Check Biaya Berhasil',
-                            text: 'Harga =' + data['BiayaSewa'],
                             sticky: true,
                             time: '',
                         }, 1000);
+                        // Create our number formatter.
+                        const formatter = new Intl.NumberFormat('ban', 'id');
+
+                        $('#JenisSewa').val(data.JenisSewa);
+                        $('#Harga').val(formatter.format(data.BiayaSewa));
+                        $('#BiayaSewa').val(data.BiayaSewa);
                     }
                 }
             });

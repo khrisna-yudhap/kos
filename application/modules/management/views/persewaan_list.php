@@ -86,7 +86,7 @@
                     "orderable": false,
                 },
                 {
-                    "data": "Keterangan",
+                    "data": "StatusSewa",
                 },
                 {
                     "data": "JenisSewa",

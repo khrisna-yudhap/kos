@@ -77,7 +77,7 @@ class Persewaan_model extends Ci_Model
         return $response;
     }
 
-    function checkHarga($tglAwal, $tglAkhir)
+    function checkHarga($LokasiId, $tglAwal, $tglAkhir)
     {
         $response = [];
 
@@ -172,10 +172,10 @@ class Persewaan_model extends Ci_Model
     }
 
 
-    function doAdd($PengelolaId, $KotaId, $LokasiId, $KamarId, $NamaPenyewa, $NomorHp, $NomorIdentitas, $JenisSewa, $BiayaSewa, $TanggalAwal, $TanggalAkhir, $TanggalEntry, $Keterangan)
+    function doAdd($PengelolaId, $KotaId, $LokasiId, $KamarId, $NamaPenyewa, $NomorHp, $NomorIdentitas, $JenisSewa, $BiayaSewa, $TanggalAwal, $TanggalAkhir, $TanggalEntry, $StatusSewa, $Keterangan)
     {
-        $sql = "INSERT INTO manage_persewaan (PengelolaId, KotaId, LokasiId, KamarId, NamaPenyewa, NomorHp, NomorIdentitas, JenisSewa, BiayaSewa, TanggalAwal, TanggalAkhir, TanggalEntry,  Keterangan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $this->db->query($sql, array($PengelolaId, $KotaId, $LokasiId, $KamarId, $NamaPenyewa, $NomorHp, $NomorIdentitas, $JenisSewa, $BiayaSewa, $TanggalAwal, $TanggalAkhir, $TanggalEntry, $Keterangan));
+        $sql = "INSERT INTO manage_persewaan (PengelolaId, KotaId, LokasiId, KamarId, NamaPenyewa, NomorHp, NomorIdentitas, JenisSewa, BiayaSewa, TanggalAwal, TanggalAkhir, TanggalEntry, StatusSewa, Keterangan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $this->db->query($sql, array($PengelolaId, $KotaId, $LokasiId, $KamarId, $NamaPenyewa, $NomorHp, $NomorIdentitas, $JenisSewa, $BiayaSewa, $TanggalAwal, $TanggalAkhir, $TanggalEntry, $StatusSewa, $Keterangan));
         return $this->db->insert_id();
     }
 
