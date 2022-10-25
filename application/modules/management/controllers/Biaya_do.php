@@ -14,7 +14,13 @@ class Biaya_do extends ACM_Controller
         array(
             'field' => 'LokasiId',
             'label' => 'Lokasi',
-            'rules' => 'required'
+            'rules' => [
+                'required',
+                'is_unique[manage_biaya.LokasiId]'
+            ],
+            'errors' => [
+                'is_unique' => 'Biaya pada lokasi ini sudah ada. Harap cek kembali.'
+            ]
         ),
         array(
             'field' => 'KotaId',
@@ -57,7 +63,7 @@ class Biaya_do extends ACM_Controller
             // }
             //  echo $_POST['GroupGroupId'];exit;
 
-            $result = $this->Biaya_model->DoAdd($_POST['LokasiId'], $_POST['KotaId'], $_POST['BiayaHarian'], $_POST['BiayaMingguan'], $_POST['BiayaBulanan']);
+            $result = $this->Biaya_model->DoAdd($_POST['KotaId'], $_POST['LokasiId'], $_POST['BiayaHarian'], $_POST['BiayaMingguan'], $_POST['BiayaBulanan']);
 
             if ($result) {
                 echo 'success';
