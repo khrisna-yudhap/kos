@@ -61,7 +61,7 @@ class Setoran_do extends ACM_Controller
             $result = $this->Persewaan_model->DoAdd(
                 $PengelolaId,
                 $_POST['LokasiId'],
-                $_POST['BiayaSewa'],
+                $_POST['JumlahSetor'],
                 $_POST['TanggalAwal'],
                 $_POST['TanggalAkhir'],
                 $tglSetor,

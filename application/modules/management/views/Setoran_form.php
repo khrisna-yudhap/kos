@@ -42,8 +42,6 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6">
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label">Tanggal Sewa <?php echo form_error('TanggalSewa') ?></label>
                                     <div class="col-lg-8">
@@ -59,10 +57,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-lg col-form-label">Biaya Sewa (Rp)<?php echo form_error('BiayaSewa') ?></label>
+                                    <label class="col-lg col-form-label">Jumlah Setoran (Rp)<?php echo form_error('JumlahSetoran') ?></label>
                                     <div class="col-lg-8">
                                         <input class="form-control" type="text" id="Harga" disabled>
-                                        <input class="form-control" type="hidden" name="BiayaSewa" id="BiayaSewa" disabled>
+                                        <input class="form-control" type="hidden" name="JumlahSetoran" id="JumlahSetoran" disabled>
                                     </div>
                                 </div>
                                 <div class="form-group row">

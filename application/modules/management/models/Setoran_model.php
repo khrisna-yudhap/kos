@@ -37,44 +37,6 @@ class Setoran_model extends Ci_Model
         return $query->result_array();
     }
 
-    function getKota()
-    {
-        $sql = "
-        SELECT  KotaId as value, KotaName as label
-        FROM manage_kota";
-
-        $query = $this->db->query($sql, array());
-        return $query->result_array();
-    }
-
-    //Get Data Lokasi
-    function getLokasiKota($postData)
-    {
-        $response = array();
-
-        // Select record
-        $this->db->select('*');
-        $this->db->where('KotaId', $postData);
-        $q = $this->db->get('manage_lokasi');
-        $response = $q->result_array();
-
-        return $response;
-    }
-
-    //Get Data Kamar
-    function getKamarLokasi($postData)
-    {
-        $response = array();
-
-        // Select record
-        $this->db->select('*');
-        $this->db->where('LokasiId', $postData);
-        $q = $this->db->get('manage_kamar');
-        $response = $q->result_array();
-
-        return $response;
-    }
-
     function checkHarga($LokasiId, $tglAwal, $tglAkhir)
     {
         $response = [];

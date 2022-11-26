@@ -50,7 +50,7 @@ class Setoran extends ACM_Controller
             'SetorId' => set_value('SetorId'),
             'PengelolaId' => set_value('PengelolaId'),
             'LokasiId' => set_value('LokasiId'),
-            'BiayaSewa' => set_value('BiayaSewa'),
+            'JumlahSetor' => set_value('JumlahSetor'),
             'TanggalAwal' => set_value('TanggalAwal'),
             'TanggalAkhir' => set_value('TanggalAkhir'),
             'StatusSetor' => set_value('StatusSetor'),
