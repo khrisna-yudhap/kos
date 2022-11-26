@@ -90,7 +90,7 @@ class Biaya_model extends Ci_Model
 
     function doAdd($KotaId, $LokasiId, $BiayaHarian, $BiayaMingguan, $BiayaBulanan)
     {
-        $sql = "INSERT INTO manage_biaya ( KotaId, LokasiId, BiayaHarian, BiayaMingguan, BiayaBulanan) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO manage_biaya (KotaId, LokasiId, BiayaHarian, BiayaMingguan, BiayaBulanan) VALUES (?, ?, ?, ?, ?)";
         $this->db->query($sql, array($KotaId, $LokasiId, $BiayaHarian, $BiayaMingguan, $BiayaBulanan));
         return $this->db->insert_id();
     }

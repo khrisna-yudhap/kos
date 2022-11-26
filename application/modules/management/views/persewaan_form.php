@@ -232,11 +232,20 @@
                 async: false,
                 dataType: 'json',
                 success: function(data) {
-                    if (data == 'false') {
+                    if (data == false) {
                         // alert(data);
                         $.gritter.add({
                             title: 'Check Biaya Gagal !',
                             text: 'Harap masukan tanggal terlebih dahulu.',
+                            sticky: true,
+                            time: '',
+                        }, 1000);
+                        return false;
+                    } else if (data == 'NoLokasi') {
+                        // alert(data);
+                        $.gritter.add({
+                            title: 'Check Biaya Gagal !',
+                            text: 'Harap pilih lokasi terlebih dahulu.',
                             sticky: true,
                             time: '',
                         }, 1000);

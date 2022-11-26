@@ -85,11 +85,24 @@ class Persewaan_model extends Ci_Model
             $response = false;
 
             return $response;
+            die;
         }
 
         //Cari Jenis Sewa
         $JenisSewa = "";
         $BiayaSewa = "";
+
+        // Select record
+        if ($LokasiId != null) {
+            $this->db->select('*');
+            $this->db->where('LokasiId', $LokasiId);
+            $q = $this->db->get('manage_biaya');
+            $harga = $q->row();
+        } else {
+            $response = 'NoLokasi';
+            return $response;
+            die;
+        }
 
         $TotalDays = (new DateTime($tglAwal))->diff(new DateTime($tglAkhir))->days;
 
@@ -117,7 +130,7 @@ class Persewaan_model extends Ci_Model
                 $JenisSewa = "Harian";
 
                 //Get Harga
-                $HargaHarian = 185000;
+                $HargaHarian = $harga->BiayaHarian;
 
                 $BiayaSewa = $TotalDays * $HargaHarian;
 
@@ -134,7 +147,7 @@ class Persewaan_model extends Ci_Model
                 $JenisSewa = "Mingguan";
 
                 //Get Harga
-                $HargaMingguan = 1400000;
+                $HargaMingguan = $harga->BiayaMingguan;
 
                 $TotalWeeks = $TotalDays / 7;
                 $BiayaSewa = $TotalWeeks * $HargaMingguan;
@@ -152,8 +165,8 @@ class Persewaan_model extends Ci_Model
         } else {
             $JenisSewa = "Bulanan";
 
-            //Get Harga $this->Persewaan_model->getHarga()
-            $HargaBulanan = 4000000;
+            //Get Harga 
+            $HargaBulanan = $harga->BiayaBulanan;
 
             $TotalMonth = $TotalDays / 30;
 
