@@ -8,8 +8,9 @@ class Setoran_model extends Ci_Model
         $this->load->library('datatables');
         $this->load->helper('my_datatable');
 
-        $this->datatables->select('*,	SetorId, PengelolaId, LokasiName, TanggalAwal, TanggalAkhir, TanggalSetor, Keterangan');
+        $this->datatables->select('*,	SetorId, manage_setoran.PengelolaId, LokasiName, manage_setoran.TanggalAwal, manage_setoran.TanggalAkhir, JumlahSetor, TanggalSetor, StatusSetor, manage_setoran.Keterangan');
         $this->datatables->join('manage_lokasi', 'manage_lokasi.LokasiId = manage_setoran.LokasiId', 'LEFT');
+        $this->datatables->join('manage_persewaan', 'manage_persewaan.SewaId = manage_setoran.SewaId', 'LEFT');
         $this->datatables->from('manage_setoran');
         // $this->datatables->add_column('tampil', '$1', 'checklist(MenuIsShow)');
         // $this->datatables->edit_column('MenuId', '$1', 'encrypt_id(MenuId)');
@@ -37,6 +38,10 @@ class Setoran_model extends Ci_Model
         return $query->result_array();
     }
 
+    function getJumlahSetor()
+    {
+    }
+
     function checkHarga($LokasiId, $tglAwal, $tglAkhir)
     {
         $response = [];
@@ -46,96 +51,31 @@ class Setoran_model extends Ci_Model
 
             return $response;
         }
+        // return [$LokasiId, $tglAwal, $tglAkhir];
+        $SewaId = [];
 
-        //Cari Jenis Sewa
-        $JenisSewa = "";
-        $BiayaSewa = "";
+        $this->db->select('SewaId, BiayaSewa');
+        $this->db->where("TanggalEntry BETWEEN '" . $tglAwal . "' AND '" . $tglAkhir . "'");
+        $q = $this->db->get('manage_persewaan');
+        $response = $q->result_array();
 
-        $TotalDays = (new DateTime($tglAwal))->diff(new DateTime($tglAkhir))->days;
-
-        function cekTgl($tglAwal, $tglAkhir)
-        {
-            $TglAwal = $tglAwal;
-            $TglAkhir = $tglAkhir;
-
-            //Temukan Tanggal Hari Pada Tgl Awal
-            $dayAwal = date("d", strtotime($TglAwal));
-
-            //Hitung Jumlah hari pada input tgl akhir
-            $dayAkhir = date("d", strtotime($TglAkhir));
-            $month = date("m", strtotime($TglAkhir));
-            $years = date("y", strtotime($TglAkhir));
-
-            if ($dayAwal == $dayAkhir) {
-                return true;
-            }
+        $jumlahSetoran = 0;
+        foreach ($response as $row) {
+            $jumlahSetoran += $row['BiayaSewa'];
         }
 
-        //Check Jenis Sewa dan Biaya Sewa
-        // if (!cekTgl($tglAwal, $tglAkhir)) {
-        //     if ($TotalDays % 7 != 0) {
-        //         $JenisSewa = "Harian";
+        $response = [
+            'JumlahSetor' => $jumlahSetoran,
+        ];
 
-        //         //Get Harga
-        //         $HargaHarian = 185000;
-
-        //         $BiayaSewa = $TotalDays * $HargaHarian;
-
-        //         //Return Response
-        //         $response = [
-        //             'JenisSewa' => $JenisSewa,
-        //             'BiayaSewa' => $BiayaSewa,
-        //             'Banyaknya Hari' => $TotalDays
-        //         ];
-
-        //         return $response;
-        //         die;
-        //     } else {
-        //         $JenisSewa = "Mingguan";
-
-        //         //Get Harga
-        //         $HargaMingguan = 1400000;
-
-        //         $TotalWeeks = $TotalDays / 7;
-        //         $BiayaSewa = $TotalWeeks * $HargaMingguan;
-
-        //         //Return Response
-        //         $response = [
-        //             'JenisSewa' => $JenisSewa,
-        //             'BiayaSewa' => $BiayaSewa,
-        //             'Banyaknya Hari' => $TotalDays
-        //         ];
-
-        //         return $response;
-        //         die;
-        //     }
-        // } else {
-        //     $JenisSewa = "Bulanan";
-
-        //     //Get Harga $this->Persewaan_model->getHarga()
-        //     $HargaBulanan = 4000000;
-
-        //     $TotalMonth = $TotalDays / 30;
-
-        //     $BiayaSewa = round($TotalMonth) * $HargaBulanan;
-
-        //     //Return Response
-        //     $response = [
-        //         'JenisSewa' => $JenisSewa,
-        //         'BiayaSewa' => $BiayaSewa,
-        //         'Banyaknya Hari' => $TotalDays
-        //     ];
-
-        //     return $response;
-        //     die;
-        // }
+        return $response;
     }
 
 
-    function doAdd($PengelolaId, $LokasiId, $JumlahSetor, $TanggalAwal, $TanggalAkhir, $TanggalSetor, $StatusSetor, $Keterangan)
+    function doAdd($PengelolaId, $LokasiId, $JumlahSetor, $TanggalAwal, $TanggalAkhir, $TanggalSetor, $Keterangan)
     {
-        $sql = "INSERT INTO manage_setoran (PengelolaId, LokasiId, JumlahSetor, TanggalAwal, TanggalAkhir, TanggalSetor, StatusSetor, Keterangan) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        $this->db->query($sql, array($PengelolaId, $LokasiId, $JumlahSetor, $TanggalAwal, $TanggalAkhir, $TanggalSetor, $StatusSetor, $Keterangan));
+        $sql = "INSERT INTO manage_setoran (PengelolaId, LokasiId, JumlahSetor, TanggalAwal, TanggalAkhir, TanggalSetor, Keterangan) VALUES (?, ?, ?, ?,  ?, ?, ?)";
+        $this->db->query($sql, array($PengelolaId, $LokasiId, $JumlahSetor, $TanggalAwal, $TanggalAkhir, $TanggalSetor,  $Keterangan));
         return $this->db->insert_id();
     }
 

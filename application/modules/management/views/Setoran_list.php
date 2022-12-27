@@ -84,10 +84,6 @@
                 },
                 {
                     "data": "LokasiName",
-                    render: function(data, type, row) {
-                        return row.LokasiName + " /" +
-                            row.KotaName;
-                    },
                     width: 50
                 },
                 {

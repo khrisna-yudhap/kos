@@ -38,12 +38,12 @@
                                     <label class="col-lg-4 col-form-label">Lokasi <?php echo form_error('LokasiId') ?></label>
                                     <div class="col-lg-8">
                                         <select class="form-control" id="LokasiId" name="LokasiId">
-                                            <option value="">-- Pilih --</option>
+                                            <option value="1">-- Pilih --</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label">Tanggal Sewa <?php echo form_error('TanggalSewa') ?></label>
+                                    <label class="col-lg-4 col-form-label">Tanggal Setor <?php echo form_error('TanggalSetor') ?></label>
                                     <div class="col-lg-8">
                                         <div class="input-group">
                                             <input class="form-control" type="date" name="TanggalAwal" id="TanggalAwal">
@@ -60,7 +60,7 @@
                                     <label class="col-lg col-form-label">Jumlah Setoran (Rp)<?php echo form_error('JumlahSetoran') ?></label>
                                     <div class="col-lg-8">
                                         <input class="form-control" type="text" id="Harga" disabled>
-                                        <input class="form-control" type="hidden" name="JumlahSetoran" id="JumlahSetoran" disabled>
+                                        <input class="form-control" type="hidden" name="JumlahSetor" id="JumlahSetor" disabled>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -99,7 +99,7 @@
                 type: "POST",
                 url: '<?= site_url('management/setoran/index/checkHarga') ?>',
                 data: {
-                    LokasiId: $('#LokasiId').val(),
+                    LokasiId: 1, //$('#LokasiId').val(),
                     TanggalAwal: $('#TanggalAwal').val(),
                     TanggalAkhir: $('#TanggalAkhir').val(),
                 },
@@ -124,6 +124,7 @@
                         // Create our number formatter.
                         const formatter = new Intl.NumberFormat('ban', 'id');
                         $('#Harga').val(formatter.format(data.JumlahSetor));
+
                         $('#JumlahSetor').val(data.JumlahSetor);
                     }
                 }
@@ -144,7 +145,6 @@
                     TanggalAwal: $('#TanggalAwal').val(),
                     TanggalAkhir: $('#TanggalAkhir').val(),
                     TanggalSetor: $('#SewaId').val(),
-                    StatusSetor: $('#StatusSetor').val(),
                     Keterangan: $('#Keterangan').val(),
                 },
                 success: function(data) {
